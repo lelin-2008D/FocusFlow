@@ -78,26 +78,33 @@
 - [x] Audio chime generator via Web Audio API (zero external broken assets).
 - [x] Verified clean production build (`npm run build`) and 100% passing tests (12/12).
 
-### Phase 3: Authentication, Database Schema, Security Policies & Supabase Sync
-- [ ] Supabase SQL Migrations:
-  - Tables: `profiles`, `projects`, `tasks`, `subtasks`, `reminders`, `reminder_deliveries`, `push_subscriptions`, `user_settings`.
-  - Row Level Security (RLS) policies on every table ensuring users only read/write their own records.
-  - Foreign key constraints with cascading deletes where appropriate.
-  - Optimized indexes on `user_id`, `due_date`, `status`, `remind_at`.
-- [ ] Auth Integration:
-  - Supabase Auth state listener, sign-up, sign-in, password reset, guest/offline mode support.
-  - Automatic migration/claim of local tasks created while guest when user signs up/logs in.
-- [ ] Initial Cloud Sync Layer:
-  - Pull remote changes, push local changes, handle initial account hydration.
-
-### Phase 4: Offline Mutation Queue, Conflict Resolution & Multi-Device Sync
-- [ ] Durable Mutation Outbox Queue:
-  - Every change creates a local mutation record before sync.
-  - Sync engine processes queue with exponential backoff and network status awareness (`navigator.onLine`).
-- [ ] Conflict Handling:
-  - Last-Write-Wins (LWW) utilizing updated_at timestamps with field-level reconciliation where safe.
-  - Duplicate prevention with client-generated UUIDs (v4).
-- [ ] Multi-tab synchronization using `BroadcastChannel`.
+### Phase 2: Authentication, Database Schema, RLS, Offline Mutation Queue & Conflict Resolution (COMPLETED)
+- [x] Supabase SQL Migrations:
+  - [x] Complete production SQL migration `supabase/migrations/20261015000000_initial_schema.sql`.
+  - [x] Tables: `profiles`, `projects`, `tasks`, `subtasks`, `user_settings`.
+  - [x] Foreign key constraints with cascading deletes where appropriate.
+  - [x] Auto-updating `updated_at` triggers and user onboarding profile creation trigger.
+  - [x] Optimized indexes on `(user_id, updated_at DESC)`, `(user_id, due_date)`, `(user_id, completed)`, `(user_id, is_trash)`.
+  - [x] Strict Row Level Security (RLS) policies on every table enforcing `auth.uid() = user_id`.
+- [x] Auth Integration:
+  - [x] `useAuth` hook and `authService` for session state, sign-in, sign-up, sign-out.
+  - [x] Safe client initialization (`isSupabaseConfigured()`) with offline-first graceful fallback.
+  - [x] `AuthModal` component with Sign In / Create Account tabs and offline mode notices.
+  - [x] Automatic account migration: guest tasks and subtasks are claimed and stamped with the authenticated user ID.
+- [x] Durable Offline Mutation Queue:
+  - [x] `syncEngine.enqueueMutation(...)` appends every local operation (create, update, delete) to Dexie `outbox`.
+  - [x] Dexie transactions updated to atomically include `db.outbox`.
+- [x] Idempotent Retries & Conflict Resolution:
+  - [x] Idempotent upserts on Supabase using stable client-generated UUIDs.
+  - [x] Retry counters and backoff handling on transient failures.
+  - [x] Last-Write-Wins (LWW) conflict resolution using timestamp comparison (`updated_at` / `client_updated_at`).
+  - [x] Uncommitted pending outbox mutations guarded against remote overwrites.
+- [x] Multi-Device & Multi-Tab Synchronization:
+  - [x] Multi-tab communication via `BroadcastChannel('focusflow_sync_channel')`.
+  - [x] Periodic background sync loop (30s) and network status awareness (`online` / `offline`).
+- [x] Verification:
+  - [x] 17 passing tests across 5 test suites (`npm test`).
+  - [x] Production build passes cleanly in 5.09s (`npm run build`).
 
 ### Phase 5: Scheduled Reminders, Web Push, Recurring Rules, Snooze & Recovery
 - [ ] Reminder Engine:

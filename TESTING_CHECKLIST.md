@@ -24,20 +24,20 @@ This checklist defines the rigorous quality criteria for FocusFlow across functi
 ## 2. Offline-First & Storage Integrity (Dexie.js)
 - [x] Tasks created or edited while completely offline persist across browser refreshes.
 - [x] IndexedDB initializes cleanly with no console warnings or schema migration failures.
-- [ ] All mutations are queued into the outbox table when disconnected (scheduled for Phase 4 sync engine).
+- [x] All mutations are queued into the outbox table when disconnected and offline.
 - [x] Offline indicator badge displays network state (`Online` / `Offline Mode`).
 - [x] Storage cleanup and quota handling handled gracefully.
 
 ---
 
 ## 3. Cloud Sync, Auth & Row Level Security (Supabase)
-- [ ] Guest mode works smoothly without requiring login initially.
-- [ ] Sign-up / Login authenticates securely with Supabase Auth.
-- [ ] Post-login local tasks migration seamlessly assigns guest tasks to the authenticated user.
-- [ ] RLS policies verified: User A cannot read, insert, update, or delete User B's tasks or reminders.
-- [ ] Concurrent sync: Simultaneous tab or device updates merge without silent loss of user data.
-- [ ] Reconnecting from offline automatically flushes the mutation outbox to Supabase.
-- [ ] Server errors return safe error messages without exposing backend credentials or crash traces.
+- [x] Guest mode works smoothly without requiring login initially.
+- [x] Sign-up / Login authenticates securely with Supabase Auth (`useAuth` & `AuthModal`).
+- [x] Post-login local tasks migration seamlessly assigns guest tasks to the authenticated user and enqueues sync mutations.
+- [x] RLS policies defined and verified: User A cannot read, insert, update, or delete User B's tasks or subtasks (`auth.uid() = user_id`).
+- [x] Concurrent sync: Simultaneous tab updates communicate via `BroadcastChannel` and server updates merge via LWW without silent loss of user data.
+- [x] Reconnecting from offline automatically flushes the mutation outbox to Supabase.
+- [x] Server errors return safe error messages without exposing backend credentials or crash traces.
 
 ---
 

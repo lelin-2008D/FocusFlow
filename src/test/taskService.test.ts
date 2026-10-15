@@ -4,8 +4,12 @@ import { taskService } from '../services/taskService'
 
 describe('TaskService & Dexie Persistence', () => {
   beforeEach(async () => {
+    if (!db.isOpen()) {
+      await db.open()
+    }
     await db.tasks.clear()
     await db.subtasks.clear()
+    await db.outbox.clear()
   })
 
   it('creates a new task and persists it in IndexedDB', async () => {

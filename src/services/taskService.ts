@@ -2,6 +2,7 @@ import { db } from '../db'
 import type { Task, Subtask, UserSettings, TaskInput } from '../types/task'
 import { TaskInputSchema, SubtaskInputSchema } from '../types/task'
 import { soundService } from './audioService'
+import { syncEngine } from './syncEngine'
 
 export class TaskService {
   /**
@@ -34,8 +35,9 @@ export class TaskService {
       reminderRule: validated.reminderRule || undefined,
     }
 
-    await db.transaction('rw', db.tasks, db.subtasks, async () => {
+    await db.transaction('rw', db.tasks, db.subtasks, db.outbox, async () => {
       await db.tasks.add(newTask)
+      await syncEngine.enqueueMutation('task', newTask.id, 'create', newTask)
 
       if (subtaskTitles.length > 0) {
         const subtasks: Subtask[] = subtaskTitles
@@ -51,6 +53,9 @@ export class TaskService {
 
         if (subtasks.length > 0) {
           await db.subtasks.bulkAdd(subtasks)
+          for (const sub of subtasks) {
+            await syncEngine.enqueueMutation('subtask', sub.id, 'create', sub)
+          }
         }
       }
     })
@@ -68,13 +73,16 @@ export class TaskService {
     }
 
     const now = new Date().toISOString()
-    const merged = {
+    const merged: Task = {
       ...existing,
       ...updates,
       updatedAt: now,
     }
 
-    await db.tasks.update(id, merged)
+    await db.transaction('rw', db.tasks, db.outbox, async () => {
+      await db.tasks.update(id, merged)
+      await syncEngine.enqueueMutation('task', id, 'update', merged)
+    })
   }
 
   /**
@@ -87,10 +95,16 @@ export class TaskService {
     const newCompleted = !task.completed
     const now = new Date().toISOString()
 
-    await db.tasks.update(id, {
+    const updatedTask: Task = {
+      ...task,
       completed: newCompleted,
       completedAt: newCompleted ? now : undefined,
       updatedAt: now,
+    }
+
+    await db.transaction('rw', db.tasks, db.outbox, async () => {
+      await db.tasks.update(id, updatedTask)
+      await syncEngine.enqueueMutation('task', id, 'update', updatedTask)
     })
 
     if (newCompleted && playSound) {
@@ -108,10 +122,16 @@ export class TaskService {
     if (!task) return
 
     const now = new Date().toISOString()
-    await db.tasks.update(id, {
+    const updated = {
+      ...task,
       isTrash: true,
       trashedAt: now,
       updatedAt: now,
+    }
+
+    await db.transaction('rw', db.tasks, db.outbox, async () => {
+      await db.tasks.update(id, updated)
+      await syncEngine.enqueueMutation('task', id, 'update', updated)
     })
   }
 
@@ -123,10 +143,16 @@ export class TaskService {
     if (!task) return
 
     const now = new Date().toISOString()
-    await db.tasks.update(id, {
+    const updated = {
+      ...task,
       isTrash: false,
       trashedAt: undefined,
       updatedAt: now,
+    }
+
+    await db.transaction('rw', db.tasks, db.outbox, async () => {
+      await db.tasks.update(id, updated)
+      await syncEngine.enqueueMutation('task', id, 'update', updated)
     })
   }
 
@@ -134,9 +160,14 @@ export class TaskService {
    * Permanently delete a task and all associated subtasks
    */
   async permanentlyDelete(id: string): Promise<void> {
-    await db.transaction('rw', db.tasks, db.subtasks, async () => {
+    await db.transaction('rw', db.tasks, db.subtasks, db.outbox, async () => {
+      const subtasks = await db.subtasks.where('taskId').equals(id).toArray()
+      for (const sub of subtasks) {
+        await syncEngine.enqueueMutation('subtask', sub.id, 'delete', null)
+      }
       await db.subtasks.where('taskId').equals(id).delete()
       await db.tasks.delete(id)
+      await syncEngine.enqueueMutation('task', id, 'delete', null)
     })
   }
 
@@ -147,9 +178,14 @@ export class TaskService {
     const trashedTasks = await db.tasks.where('isTrash').equals(1 as any).toArray()
     const trashedIds = trashedTasks.map((t) => t.id)
 
-    await db.transaction('rw', db.tasks, db.subtasks, async () => {
+    await db.transaction('rw', db.tasks, db.subtasks, db.outbox, async () => {
       for (const id of trashedIds) {
+        const subtasks = await db.subtasks.where('taskId').equals(id).toArray()
+        for (const sub of subtasks) {
+          await syncEngine.enqueueMutation('subtask', sub.id, 'delete', null)
+        }
         await db.subtasks.where('taskId').equals(id).delete()
+        await syncEngine.enqueueMutation('task', id, 'delete', null)
       }
       await db.tasks.where('isTrash').equals(1 as any).delete()
     })
@@ -172,7 +208,10 @@ export class TaskService {
       createdAt: now,
     }
 
-    await db.subtasks.add(newSubtask)
+    await db.transaction('rw', db.subtasks, db.outbox, async () => {
+      await db.subtasks.add(newSubtask)
+      await syncEngine.enqueueMutation('subtask', newSubtask.id, 'create', newSubtask)
+    })
     return newSubtask
   }
 
@@ -181,7 +220,12 @@ export class TaskService {
     if (!subtask) throw new Error('Subtask not found')
 
     const newCompleted = !subtask.completed
-    await db.subtasks.update(id, { completed: newCompleted })
+    const updated = { ...subtask, completed: newCompleted }
+    
+    await db.transaction('rw', db.subtasks, db.outbox, async () => {
+      await db.subtasks.update(id, updated)
+      await syncEngine.enqueueMutation('subtask', id, 'update', updated)
+    })
 
     if (playSound) {
       soundService.playSubtaskToggle()
@@ -190,12 +234,22 @@ export class TaskService {
   }
 
   async deleteSubtask(id: string): Promise<void> {
-    await db.subtasks.delete(id)
+    await db.transaction('rw', db.subtasks, db.outbox, async () => {
+      await db.subtasks.delete(id)
+      await syncEngine.enqueueMutation('subtask', id, 'delete', null)
+    })
   }
 
   async updateSubtaskTitle(id: string, title: string): Promise<void> {
     SubtaskInputSchema.parse({ title })
-    await db.subtasks.update(id, { title: title.trim() })
+    const subtask = await db.subtasks.get(id)
+    if (subtask) {
+      const updated = { ...subtask, title: title.trim() }
+      await db.transaction('rw', db.subtasks, db.outbox, async () => {
+        await db.subtasks.update(id, updated)
+        await syncEngine.enqueueMutation('subtask', id, 'update', updated)
+      })
+    }
   }
 
   /**

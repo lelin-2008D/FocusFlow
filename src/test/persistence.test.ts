@@ -1,14 +1,16 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { FocusFlowDatabase } from '../db'
+import { db, FocusFlowDatabase } from '../db'
 import { taskService } from '../services/taskService'
 
 describe('IndexedDB Persistence & Refresh Survival', () => {
   beforeEach(async () => {
-    const tempDb = new FocusFlowDatabase()
-    await tempDb.tasks.clear()
-    await tempDb.subtasks.clear()
-    await tempDb.settings.clear()
-    tempDb.close()
+    if (!db.isOpen()) {
+      await db.open()
+    }
+    await db.tasks.clear()
+    await db.subtasks.clear()
+    await db.outbox.clear()
+    await db.settings.clear()
   })
 
   it('survives simulated browser restart/refresh with multiple tasks and subtasks', async () => {
@@ -29,9 +31,8 @@ describe('IndexedDB Persistence & Refresh Survival', () => {
 
     await taskService.toggleComplete(task2.id, false)
 
-    // 2. Simulate browser tab close / refresh by closing the Dexie database
-    const initialDb = new FocusFlowDatabase()
-    initialDb.close()
+    // 2. Simulate browser tab close / refresh by closing the active Dexie database
+    db.close()
 
     // 3. Session 2: Fresh browser session opens database
     const refreshedDb = new FocusFlowDatabase()
@@ -56,5 +57,6 @@ describe('IndexedDB Persistence & Refresh Survival', () => {
     expect(subtasks[1].title).toBe('Step 2: Sync loop')
 
     refreshedDb.close()
+    await db.open() // restore singleton for next tests
   })
 })

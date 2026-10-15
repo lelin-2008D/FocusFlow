@@ -9,26 +9,34 @@ import { CompletedView } from './components/views/CompletedView'
 import { AllTasksView } from './components/views/AllTasksView'
 import { TrashView } from './components/views/TrashView'
 import { TaskFormModal } from './components/tasks/TaskFormModal'
+import { AuthModal } from './components/auth/AuthModal'
 import { initializeDatabase } from './db/seed'
+import { syncEngine } from './services/syncEngine'
 import type { Task } from './types/task'
 
 export function App() {
   const [activeView, setActiveView] = useState<ActiveView>('today')
   const [selectedProjectId, setSelectedProjectId] = useState<string | 'all'>('all')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null)
   const [isDbReady, setIsDbReady] = useState(false)
 
   useEffect(() => {
     initializeDatabase().then(() => {
       setIsDbReady(true)
+      // Start background periodic sync engine
+      syncEngine.startPeriodicSync(30000)
     })
+
+    return () => {
+      syncEngine.stopPeriodicSync()
+    }
   }, [])
 
   // Global keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger shortcuts if user is typing in input or textarea
       const tag = (document.activeElement?.tagName || '').toLowerCase()
       if (tag === 'input' || tag === 'textarea' || tag === 'select') return
 
@@ -84,10 +92,12 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-navy-950 light:bg-slate-50 transition-colors">
-      <Header onOpenNewTaskModal={handleOpenNewTask} />
+      <Header
+        onOpenNewTaskModal={handleOpenNewTask}
+        onOpenAuthModal={() => setIsAuthModalOpen(true)}
+      />
 
       <div className="flex-1 flex max-w-7xl w-full mx-auto">
-        {/* Desktop / Tablet Sidebar */}
         <Sidebar
           activeView={activeView}
           onSelectView={setActiveView}
@@ -96,7 +106,6 @@ export function App() {
           className="hidden md:flex"
         />
 
-        {/* Main Content Area */}
         <main className="flex-1 px-4 sm:px-8 py-6 max-w-4xl w-full overflow-y-auto">
           {!isDbReady ? (
             <div className="flex items-center justify-center py-20 text-slate-400">
@@ -109,14 +118,12 @@ export function App() {
         </main>
       </div>
 
-      {/* Mobile Bottom Navigation */}
       <MobileNav
         activeView={activeView}
         onSelectView={setActiveView}
         onOpenNewTaskModal={handleOpenNewTask}
       />
 
-      {/* Task Creation / Editing Modal */}
       <TaskFormModal
         isOpen={isModalOpen}
         onClose={() => {
@@ -125,6 +132,11 @@ export function App() {
         }}
         taskToEdit={taskToEdit}
         defaultDueDate={activeView === 'today' ? new Date().toISOString().split('T')[0] : undefined}
+      />
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
       />
     </div>
   )

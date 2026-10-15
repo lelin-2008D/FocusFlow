@@ -8,19 +8,30 @@ import {
   Plus,
   Wifi,
   WifiOff,
+  RefreshCw,
+  User,
+  LogOut,
 } from 'lucide-react'
 import { Button } from '../common/Button'
 import { useTheme } from '../../hooks/useTheme'
 import { taskService } from '../../services/taskService'
+import { syncEngine, type SyncStatus } from '../../services/syncEngine'
+import { useAuth } from '../../hooks/useAuth'
 
 interface HeaderProps {
   onOpenNewTaskModal: () => void
+  onOpenAuthModal: () => void
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenNewTaskModal }) => {
+export const Header: React.FC<HeaderProps> = ({
+  onOpenNewTaskModal,
+  onOpenAuthModal,
+}) => {
   const { theme, toggleTheme } = useTheme()
+  const { user, isAuthenticated, signOut } = useAuth()
   const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true)
   const [soundEnabled, setSoundEnabled] = useState(true)
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>('idle')
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true)
@@ -33,9 +44,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNewTaskModal }) => {
       setSoundEnabled(s.soundEnabled)
     })
 
+    const unsubscribeSync = syncEngine.onStatusChange(setSyncStatus)
+
     return () => {
       window.removeEventListener('online', handleOnline)
       window.removeEventListener('offline', handleOffline)
+      unsubscribeSync()
     }
   }, [])
 
@@ -43,6 +57,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNewTaskModal }) => {
     const nextVal = !soundEnabled
     setSoundEnabled(nextVal)
     await taskService.updateSettings({ soundEnabled: nextVal })
+  }
+
+  const handleManualSync = () => {
+    syncEngine.sync().catch(() => {})
   }
 
   return (
@@ -70,18 +88,57 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNewTaskModal }) => {
 
         {/* Right Action Bar */}
         <div className="flex items-center gap-2.5">
-          {/* Network Status Pill */}
-          <div
-            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border backdrop-blur-xs transition-colors ${
-              isOnline
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+          {/* Sync & Network Status Pill */}
+          <button
+            onClick={handleManualSync}
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border backdrop-blur-xs transition-colors focus:outline-none focus:ring-1 focus:ring-violet-500 ${
+              syncStatus === 'syncing'
+                ? 'bg-blue-500/15 text-blue-400 border-blue-500/30'
+                : isOnline
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20'
                 : 'bg-amber-500/15 text-amber-300 border-amber-500/40 animate-pulse'
             }`}
-            title={isOnline ? 'Online - Changes saved locally' : 'Offline - Working from local IndexedDB'}
+            title="Click to trigger cloud synchronization"
           >
-            {isOnline ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
-            <span className="text-[11px]">{isOnline ? 'Online' : 'Offline Mode'}</span>
-          </div>
+            {syncStatus === 'syncing' ? (
+              <RefreshCw className="h-3 w-3 animate-spin text-blue-400" />
+            ) : isOnline ? (
+              <Wifi className="h-3 w-3" />
+            ) : (
+              <WifiOff className="h-3 w-3" />
+            )}
+            <span className="text-[11px]">
+              {syncStatus === 'syncing' ? 'Syncing...' : isOnline ? 'Synced' : 'Offline'}
+            </span>
+          </button>
+
+          {/* User Auth Profile / Login Button */}
+          {isAuthenticated ? (
+            <div className="flex items-center gap-1.5 bg-navy-900/80 light:bg-slate-200/80 border border-slate-700/60 light:border-slate-300 rounded-xl px-2.5 py-1">
+              <div className="h-5 w-5 rounded-full bg-violet-600/30 border border-violet-400/40 flex items-center justify-center text-[10px] text-violet-300 font-bold">
+                {user?.email?.charAt(0).toUpperCase() || 'U'}
+              </div>
+              <span className="text-xs text-slate-300 light:text-slate-700 hidden lg:inline max-w-[120px] truncate">
+                {user?.email}
+              </span>
+              <button
+                onClick={() => signOut()}
+                className="p-1 text-slate-400 hover:text-rose-400 transition-colors"
+                title="Sign Out"
+                aria-label="Sign Out"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={onOpenAuthModal}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-navy-900 light:bg-slate-200 border border-slate-700/60 light:border-slate-300 text-slate-200 light:text-slate-800 hover:border-violet-500/50 transition-colors"
+            >
+              <User className="h-3.5 w-3.5 text-violet-400" />
+              <span className="hidden sm:inline">Sign In</span>
+            </button>
+          )}
 
           {/* Sound Toggle */}
           <button

@@ -7,7 +7,7 @@ import './index.css'
 if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('/sw.js', { scope: '/' })
+      .register(`${import.meta.env.BASE_URL}sw.js`, { scope: import.meta.env.BASE_URL })
       .catch((err) => {
         console.warn('Service Worker registration skipped or failed:', err)
       })

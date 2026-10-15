@@ -90,7 +90,9 @@ export class PushManagerService {
     }
 
     // 2. Register Service Worker if needed
-    const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' })
+    const registration = await navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`, {
+      scope: import.meta.env.BASE_URL,
+    })
     await navigator.serviceWorker.ready
 
     // 3. Subscribe with PushManager
@@ -155,10 +157,10 @@ export class PushManagerService {
     const reg = await navigator.serviceWorker.ready
     await reg.showNotification(title, {
       body,
-      icon: '/favicon.svg',
-      badge: '/favicon.svg',
+      icon: `${import.meta.env.BASE_URL}favicon.svg`,
+      badge: `${import.meta.env.BASE_URL}favicon.svg`,
       tag: `local-reminder-${taskId || 'preview'}`,
-      data: { taskId, url: '/' },
+      data: { taskId, url: import.meta.env.BASE_URL },
     })
   }
 }

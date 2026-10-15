@@ -1,10 +1,11 @@
 // FocusFlow Service Worker: Offline Caching & Web Push Notifications
 
 const CACHE_NAME = 'focusflow-shell-v1'
+const APP_BASE = self.registration.scope
 const SHELL_ASSETS = [
-  '/',
-  '/index.html',
-  '/favicon.svg',
+  new URL('./', APP_BASE).toString(),
+  new URL('index.html', APP_BASE).toString(),
+  new URL('favicon.svg', APP_BASE).toString(),
 ]
 
 // 1. Install & Cache App Shell
@@ -77,15 +78,17 @@ self.addEventListener('push', (event) => {
 
   const options = {
     body: data.body,
-    icon: '/favicon.svg',
-    badge: '/favicon.svg',
+    icon: new URL('favicon.svg', APP_BASE).toString(),
+    badge: new URL('favicon.svg', APP_BASE).toString(),
     vibrate: [200, 100, 200],
     tag: data.tag || `focusflow-task-${data.taskId || 'general'}`,
     renotify: true,
     data: {
       taskId: data.taskId,
       reminderId: data.reminderId,
-      url: data.taskId ? `/?task=${data.taskId}` : '/',
+      url: data.taskId
+        ? new URL(`?task=${encodeURIComponent(data.taskId)}`, APP_BASE).toString()
+        : APP_BASE,
       timestamp: Date.now(),
     },
     actions: [
@@ -105,7 +108,7 @@ self.addEventListener('notificationclick', (event) => {
 
   const action = event.action
   const notificationData = event.notification.data || {}
-  const targetUrl = notificationData.url || '/'
+  const targetUrl = notificationData.url || APP_BASE
 
   event.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {

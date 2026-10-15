@@ -225,6 +225,38 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
           </div>
         </div>
 
+        {/* Reminder & Recurrence Controls */}
+        <div className="p-3 rounded-xl bg-navy-950/60 light:bg-slate-100 border border-slate-800 light:border-slate-300 space-y-2.5">
+          <div className="flex items-center justify-between">
+            <label className="flex items-center gap-2 text-xs font-medium text-slate-300 light:text-slate-700 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={reminderEnabled}
+                onChange={(e) => setReminderEnabled(e.target.checked)}
+                className="h-4 w-4 rounded accent-violet-600 cursor-pointer"
+              />
+              <span>Enable Reminder & Web Push Notification</span>
+            </label>
+          </div>
+
+          {reminderEnabled && (
+            <div className="pt-2 border-t border-slate-800 light:border-slate-200 flex items-center gap-3">
+              <label className="text-xs text-slate-400">Recurrence:</label>
+              <select
+                value={reminderRule}
+                onChange={(e) => setReminderRule(e.target.value as any)}
+                className="px-2.5 py-1.5 rounded-lg glass-input text-xs"
+              >
+                <option value="once" className="bg-navy-900 text-white">One-time alert</option>
+                <option value="daily" className="bg-navy-900 text-white">Daily</option>
+                <option value="weekdays" className="bg-navy-900 text-white">Weekdays (Mon-Fri)</option>
+                <option value="weekly" className="bg-navy-900 text-white">Weekly</option>
+                <option value="monthly" className="bg-navy-900 text-white">Monthly</option>
+              </select>
+            </div>
+          )}
+        </div>
+
         {/* Initial Subtasks (for new task creation) */}
         {!taskToEdit && (
           <div>

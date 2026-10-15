@@ -10,8 +10,11 @@ import { AllTasksView } from './components/views/AllTasksView'
 import { TrashView } from './components/views/TrashView'
 import { TaskFormModal } from './components/tasks/TaskFormModal'
 import { AuthModal } from './components/auth/AuthModal'
+import { NotificationSettingsModal } from './components/reminders/NotificationSettingsModal'
 import { initializeDatabase } from './db/seed'
 import { syncEngine } from './services/syncEngine'
+import { taskService } from './services/taskService'
+import { computeSnooze } from './utils/recurrenceUtils'
 import type { Task } from './types/task'
 
 export function App() {
@@ -19,6 +22,7 @@ export function App() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | 'all'>('all')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false)
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null)
   const [isDbReady, setIsDbReady] = useState(false)
 
@@ -28,6 +32,34 @@ export function App() {
       // Start background periodic sync engine
       syncEngine.startPeriodicSync(30000)
     })
+
+    // Listen for Service Worker messages (e.g. user clicked notification action buttons)
+    if ('serviceWorker' in navigator) {
+      const handleMessage = async (event: MessageEvent) => {
+        const { type, action, taskId } = event.data || {}
+        if (type === 'NOTIFICATION_ACTION' && taskId) {
+          if (action === 'complete') {
+            await taskService.toggleComplete(taskId)
+          } else if (action === 'snooze_15') {
+            const targetDate = computeSnooze('15m')
+            const datePart = targetDate.toISOString().split('T')[0]
+            const hours = String(targetDate.getHours()).padStart(2, '0')
+            const mins = String(targetDate.getMinutes()).padStart(2, '0')
+            await taskService.updateTask(taskId, {
+              dueDate: datePart,
+              dueTime: `${hours}:${mins}`,
+              reminderTime: targetDate.toISOString(),
+            })
+          }
+        }
+      }
+
+      navigator.serviceWorker.addEventListener('message', handleMessage)
+      return () => {
+        syncEngine.stopPeriodicSync()
+        navigator.serviceWorker.removeEventListener('message', handleMessage)
+      }
+    }
 
     return () => {
       syncEngine.stopPeriodicSync()
@@ -95,6 +127,7 @@ export function App() {
       <Header
         onOpenNewTaskModal={handleOpenNewTask}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
+        onOpenNotificationSettingsModal={() => setIsNotificationModalOpen(true)}
       />
 
       <div className="flex-1 flex max-w-7xl w-full mx-auto">
@@ -137,6 +170,11 @@ export function App() {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
+      />
+
+      <NotificationSettingsModal
+        isOpen={isNotificationModalOpen}
+        onClose={() => setIsNotificationModalOpen(false)}
       />
     </div>
   )

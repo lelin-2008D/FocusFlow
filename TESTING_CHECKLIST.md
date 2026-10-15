@@ -42,17 +42,19 @@ This checklist defines the rigorous quality criteria for FocusFlow across functi
 ---
 
 ## 4. Reminders, Snooze, & Web Push
-- [ ] One-time reminder triggers in-app visual toast and audio chime when app is open.
-- [ ] Recurring reminder schedules next occurrence accurately:
-  - [ ] Daily
-  - [ ] Weekdays (Mon-Fri)
-  - [ ] Weekly on specific day
-  - [ ] Monthly on specific date
-- [ ] Snooze buttons (5m, 15m, 1h, tomorrow) update next trigger time and persist locally and in cloud.
-- [ ] Quiet hours setting respects user-defined time window (suppresses sound or postpones alert).
-- [ ] Web Push service worker registers and handles `push` event with action buttons.
-- [ ] Push notification click brings FocusFlow to foreground and opens the corresponding task.
-- [ ] Server scheduled worker claims due reminders idempotently to prevent duplicate push deliveries.
+- [x] One-time reminder triggers in-app visual toast and audio chime when app is open.
+- [x] Recurring reminder schedules next occurrence accurately:
+  - [x] Daily
+  - [x] Weekdays (Mon-Fri, skipping weekends)
+  - [x] Weekly on specific day
+  - [x] Monthly on specific date
+- [x] Snooze buttons (5m, 15m, 1h, tomorrow 09:00) update next trigger time and persist locally and in cloud.
+- [x] Quiet hours setting respects user-defined time window (suppresses sound or postpones alert).
+- [x] Web Push service worker (`public/sw.js`) registers and handles `push` event with action buttons ('Mark Done', 'Snooze 15m').
+- [x] Push notification click brings FocusFlow to foreground and opens the corresponding task.
+- [x] Server scheduled worker (`claim_due_reminders`) claims due reminders idempotently with `FOR UPDATE SKIP LOCKED` to prevent duplicate push deliveries.
+- [x] Overdue burst prevention suppresses notifications older than 24h.
+- [x] Dead push subscriptions (HTTP 410/404) are automatically flagged as inactive.
 
 ---
 

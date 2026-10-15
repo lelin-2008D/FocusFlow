@@ -10,11 +10,14 @@ import {
   ChevronUp,
   Tag,
   AlertCircle,
+  Bell,
+  Timer,
 } from 'lucide-react'
 import type { Task } from '../../types/task'
 import { Badge } from '../common/Badge'
 import { SubtaskList } from './SubtaskList'
 import { formatDueDate, isTaskOverdue } from '../../utils/dateUtils'
+import { computeSnooze, type SnoozeDuration } from '../../utils/recurrenceUtils'
 import { taskService } from '../../services/taskService'
 import { useTaskSubtasks } from '../../hooks/useTasks'
 import { cn } from '../../utils/cn'
@@ -57,6 +60,27 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       await taskService.restoreFromTrash(task.id)
     } catch (err) {
       console.error('Failed to restore task:', err)
+    }
+  }
+
+  const [showSnoozeMenu, setShowSnoozeMenu] = useState(false)
+
+  const handleSnooze = async (duration: SnoozeDuration) => {
+    try {
+      const targetDate = computeSnooze(duration)
+      const datePart = targetDate.toISOString().split('T')[0]
+      const hours = String(targetDate.getHours()).padStart(2, '0')
+      const mins = String(targetDate.getMinutes()).padStart(2, '0')
+      const timePart = `${hours}:${mins}`
+
+      await taskService.updateTask(task.id, {
+        dueDate: datePart,
+        dueTime: timePart,
+        reminderTime: targetDate.toISOString(),
+      })
+      setShowSnoozeMenu(false)
+    } catch (err) {
+      console.error('Failed to snooze task:', err)
     }
   }
 
@@ -119,6 +143,48 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             <div className="flex items-center gap-1 opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity">
               {!isTrashView ? (
                 <>
+                  {!task.completed && (
+                    <div className="relative">
+                      <button
+                        onClick={() => setShowSnoozeMenu(!showSnoozeMenu)}
+                        className="p-1 rounded-md text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                        title="Snooze task"
+                        aria-label="Snooze task"
+                      >
+                        <Timer className="h-3.5 w-3.5" />
+                      </button>
+
+                      {showSnoozeMenu && (
+                        <div className="absolute right-0 top-full mt-1 w-36 rounded-xl glass-panel shadow-2xl p-1 z-30 border border-slate-700 light:border-slate-300 text-left">
+                          <button
+                            onClick={() => handleSnooze('5m')}
+                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700"
+                          >
+                            + 5 minutes
+                          </button>
+                          <button
+                            onClick={() => handleSnooze('15m')}
+                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700"
+                          >
+                            + 15 minutes
+                          </button>
+                          <button
+                            onClick={() => handleSnooze('1h')}
+                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700"
+                          >
+                            + 1 hour
+                          </button>
+                          <button
+                            onClick={() => handleSnooze('tomorrow_morning')}
+                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700"
+                          >
+                            Tomorrow 9 AM
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {onEdit && (
                     <button
                       onClick={() => onEdit(task)}
@@ -185,6 +251,13 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               >
                 {isOverdue ? <AlertCircle className="h-2.5 w-2.5 mr-0.5 text-rose-400" /> : <Clock className="h-2.5 w-2.5 mr-0.5" />}
                 {formattedDue}
+              </Badge>
+            )}
+
+            {task.reminderEnabled && (
+              <Badge size="sm" className="text-amber-400 bg-amber-500/10 border-amber-500/30">
+                <Bell className="h-2.5 w-2.5 mr-0.5" />
+                <span>{task.reminderRule && task.reminderRule !== 'once' ? `${task.reminderRule}` : 'Reminder'}</span>
               </Badge>
             )}
 

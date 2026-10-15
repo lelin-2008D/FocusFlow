@@ -106,20 +106,27 @@
   - [x] 17 passing tests across 5 test suites (`npm test`).
   - [x] Production build passes cleanly in 5.09s (`npm run build`).
 
-### Phase 5: Scheduled Reminders, Web Push, Recurring Rules, Snooze & Recovery
-- [ ] Reminder Engine:
-  - One-time reminders and recurring rules (daily, weekly, monthly, weekdays, custom recurrence).
-  - Due reminder evaluation engine: in-app chime + banner when app is open.
-  - Snooze actions: 5 minutes, 15 minutes, 1 hour, tomorrow morning.
-  - Quiet hours preference logic (e.g. 22:00 - 07:00 suppression or silent delivery).
-- [ ] Web Push & Service Worker:
-  - Push subscription manager storing browser endpoint + p256dh + auth keys to Supabase.
-  - Service worker `push` event handler rendering rich system notifications with action buttons (Complete, Snooze).
-  - Service worker `notificationclick` handler routing to appropriate task or executing background action.
-- [ ] Server Reminder Worker:
-  - Node.js / Supabase Edge scheduled runner querying due reminders.
-  - Atomically claims reminders (`status = 'processing'`) to guarantee exactly-once or at-most-once delivery without duplicate bursts.
-  - Calculates and creates next recurrence instances upon completion or trigger.
+### Phase 3: Scheduled Reminders, Web Push, Recurring Rules, Snooze & Recovery (COMPLETED)
+- [x] Database Schema & Claiming Procedure:
+  - [x] Migration `supabase/migrations/20261015000001_reminders_and_push.sql`.
+  - [x] Tables: `reminders`, `reminder_deliveries`, `push_subscriptions`.
+  - [x] Atomic job claiming stored procedure `claim_due_reminders` with `FOR UPDATE SKIP LOCKED`.
+  - [x] Deadlock/worker crash lease expiration recovery (`claim_expires_at`).
+  - [x] Strict Row Level Security policies on all reminder and subscription tables.
+- [x] Recurrence, Snooze & Recovery Engine:
+  - [x] `computeNextOccurrence` supporting daily, weekdays (skipping weekends), weekly, monthly.
+  - [x] `computeSnooze` supporting 5m, 15m, 1h, and tomorrow morning (09:00).
+  - [x] `isWithinQuietHours` evaluating overnight and daytime windows.
+  - [x] `isOverdueBeyondThreshold` preventing notification bursts (>24h overdue).
+- [x] Web Push & Service Worker:
+  - [x] Service Worker `public/sw.js` handling `push`, `notificationclick` (with 'Complete' and 'Snooze 15m' actions), and `pushsubscriptionchange`.
+  - [x] `PushManagerService` managing permission requests upon user gesture, VAPID key conversion, and Supabase subscription storage.
+- [x] Server-Side Scheduled Reminder Worker:
+  - [x] `server/reminderWorker.ts` with `web-push` VAPID delivery, quiet hours postponement, burst prevention, and HTTP 410 dead subscription cleanup.
+  - [x] Comprehensive delivery logs tracking attempt timestamps, channels, and delivery statuses.
+- [x] Verification & Documentation:
+  - [x] 27 automated tests passing across 8 test suites (`npm test`).
+  - [x] Documented platform limitations, iOS PWA Home Screen requirements, and delivery verification guarantees in `REMINDER_DELIVERY_SPEC.md`.
 
 ### Phase 6: PWA Installation, Accessibility, Performance & Production Build
 - [ ] Web App Manifest & Service Worker caching:

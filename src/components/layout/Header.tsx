@@ -11,6 +11,7 @@ import {
   RefreshCw,
   User,
   LogOut,
+  Bell,
 } from 'lucide-react'
 import { Button } from '../common/Button'
 import { useTheme } from '../../hooks/useTheme'
@@ -21,11 +22,13 @@ import { useAuth } from '../../hooks/useAuth'
 interface HeaderProps {
   onOpenNewTaskModal: () => void
   onOpenAuthModal: () => void
+  onOpenNotificationSettingsModal: () => void
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onOpenNewTaskModal,
   onOpenAuthModal,
+  onOpenNotificationSettingsModal,
 }) => {
   const { theme, toggleTheme } = useTheme()
   const { user, isAuthenticated, signOut } = useAuth()
@@ -139,6 +142,16 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="hidden sm:inline">Sign In</span>
             </button>
           )}
+
+          {/* Notification / Reminders Settings Button */}
+          <button
+            onClick={onOpenNotificationSettingsModal}
+            className="p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+            aria-label="Notification and Reminder settings"
+            title="Notification & Reminder Settings"
+          >
+            <Bell className="h-4 w-4" />
+          </button>
 
           {/* Sound Toggle */}
           <button

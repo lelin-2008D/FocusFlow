@@ -74,13 +74,14 @@ This checklist defines the rigorous quality criteria for FocusFlow across functi
 - [x] Visible focus rings on all interactive elements in both themes.
 - [x] ARIA roles, labels, and modal attributes (`role="dialog"`, `aria-modal="true"`).
 - [x] Reduced-motion support (`prefers-reduced-motion: reduce`) disables smooth transitions and glowing animations in CSS.
-- [ ] PWA manifest & Service worker caching (scheduled for Phase 6).
-- [ ] Install prompt banner (scheduled for Phase 6).
+- [x] PWA manifest valid with icons (192px, 512px, maskable), theme-color, background-color, and start_url (`public/manifest.json`).
+- [x] Service worker caches core app shell for offline PWA launch (`public/sw.js`).
+- [x] Install prompt banner (`InstallPromptBanner.tsx`) handles `beforeinstallprompt` and iOS Home Screen guidance.
 
 ---
 
 ## 7. Security & Code Quality
-- [x] No secret keys present in frontend source or build output.
+- [x] No secret keys present in frontend source or build output (`SUPABASE_SERVICE_ROLE_KEY` & `VAPID_PRIVATE_KEY` strictly omitted).
 - [x] Frontend inputs validated with Zod runtime schemas (`TaskInputSchema`, `SubtaskInputSchema`).
 - [x] Production build succeeds with 0 TypeScript errors (`npm run build`).
-- [x] Vitest unit and integration test suite passes with 0 failures (12/12 passing).
+- [x] Vitest unit and integration test suite passes with 0 failures (29/29 tests passing).

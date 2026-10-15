@@ -11,6 +11,7 @@ import { TrashView } from './components/views/TrashView'
 import { TaskFormModal } from './components/tasks/TaskFormModal'
 import { AuthModal } from './components/auth/AuthModal'
 import { NotificationSettingsModal } from './components/reminders/NotificationSettingsModal'
+import { InstallPromptBanner } from './components/pwa/InstallPromptBanner'
 import { initializeDatabase } from './db/seed'
 import { syncEngine } from './services/syncEngine'
 import { taskService } from './services/taskService'
@@ -176,6 +177,8 @@ export function App() {
         isOpen={isNotificationModalOpen}
         onClose={() => setIsNotificationModalOpen(false)}
       />
+
+      <InstallPromptBanner />
     </div>
   )
 }

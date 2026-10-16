@@ -64,5 +64,11 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // `light:` is used throughout the UI alongside the `html.light` theme class.
+    // Tailwind only provides `dark:` by default, so register the matching variant.
+    function ({ addVariant }) {
+      addVariant('light', '.light &')
+    },
+  ],
 }

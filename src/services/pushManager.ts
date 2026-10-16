@@ -157,8 +157,8 @@ export class PushManagerService {
     const reg = await navigator.serviceWorker.ready
     await reg.showNotification(title, {
       body,
-      icon: `${import.meta.env.BASE_URL}favicon.svg`,
-      badge: `${import.meta.env.BASE_URL}favicon.svg`,
+      icon: `${import.meta.env.BASE_URL}focusflow.png`,
+      badge: `${import.meta.env.BASE_URL}focusflow.png`,
       tag: `local-reminder-${taskId || 'preview'}`,
       data: { taskId, url: import.meta.env.BASE_URL },
     })

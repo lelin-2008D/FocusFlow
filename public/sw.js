@@ -1,11 +1,11 @@
 // FocusFlow Service Worker: Offline Caching & Web Push Notifications
 
-const CACHE_NAME = 'focusflow-shell-v1'
+const CACHE_NAME = 'focusflow-shell-v3'
 const APP_BASE = self.registration.scope
 const SHELL_ASSETS = [
   new URL('./', APP_BASE).toString(),
   new URL('index.html', APP_BASE).toString(),
-  new URL('favicon.svg', APP_BASE).toString(),
+  new URL('focusflow.png', APP_BASE).toString(),
 ]
 
 // 1. Install & Cache App Shell
@@ -78,8 +78,8 @@ self.addEventListener('push', (event) => {
 
   const options = {
     body: data.body,
-    icon: new URL('favicon.svg', APP_BASE).toString(),
-    badge: new URL('favicon.svg', APP_BASE).toString(),
+    icon: new URL('focusflow.png', APP_BASE).toString(),
+    badge: new URL('focusflow.png', APP_BASE).toString(),
     vibrate: [200, 100, 200],
     tag: data.tag || `focusflow-task-${data.taskId || 'general'}`,
     renotify: true,

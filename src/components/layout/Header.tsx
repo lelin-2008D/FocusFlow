@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import {
-  Sparkles,
   Sun,
   Moon,
   Volume2,
@@ -18,6 +17,7 @@ import { useTheme } from '../../hooks/useTheme'
 import { taskService } from '../../services/taskService'
 import { syncEngine, type SyncStatus } from '../../services/syncEngine'
 import { useAuth } from '../../hooks/useAuth'
+import focusflowLogo from '../../images/focusflow-centered.png'
 
 interface HeaderProps {
   onOpenNewTaskModal: () => void
@@ -71,8 +71,8 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Logo & Brand */}
         <div className="flex items-center gap-3">
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 shadow-glass-glow border border-violet-400/30">
-            <Sparkles className="h-5 w-5 text-white animate-pulse-subtle" />
+          <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 shadow-glass-glow border border-violet-400/30">
+            <img src={focusflowLogo} alt="" className="h-10 w-10 object-contain" />
           </div>
           <div>
             <div className="flex items-center gap-2">

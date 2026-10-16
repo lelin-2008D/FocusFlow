@@ -97,7 +97,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <div
       className={cn(
-        'group relative rounded-2xl border transition-all duration-200 p-4.5',
+        'group relative rounded-2xl border transition-all duration-200 p-4',
         task.completed
           ? 'bg-navy-900/40 light:bg-slate-50/80 border-slate-800/60 light:border-slate-200/80 opacity-75'
           : 'glass-panel glass-panel-hover',

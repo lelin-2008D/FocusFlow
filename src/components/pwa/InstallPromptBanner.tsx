@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Download, X, Share } from 'lucide-react'
+import { Download, X } from 'lucide-react'
 import { Button } from '../common/Button'
+import focusflowLogo from '../../images/focusflow-centered.png'
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>
@@ -71,8 +72,8 @@ export const InstallPromptBanner: React.FC = () => {
   return (
     <div className="fixed bottom-16 md:bottom-5 right-4 left-4 md:left-auto md:max-w-md z-40 animate-slide-up">
       <div className="rounded-2xl glass-panel p-4 shadow-2xl border border-violet-500/30 backdrop-blur-glass flex items-start gap-3.5 bg-navy-900/95 light:bg-white/95">
-        <div className="p-2.5 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 text-white shrink-0 shadow-glass-glow">
-          {isIOS ? <Share className="h-5 w-5" /> : <Download className="h-5 w-5" />}
+        <div className="h-11 w-11 rounded-xl bg-navy-950/70 border border-violet-500/30 shrink-0 flex items-center justify-center">
+          <img src={focusflowLogo} alt="FocusFlow" className="h-11 w-11 object-contain" />
         </div>
 
         <div className="flex-1 min-w-0 text-xs">

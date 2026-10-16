@@ -21,7 +21,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
   onOpenNewTaskModal,
 }) => {
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 glass-panel border-t border-slate-800/80 light:border-slate-300 backdrop-blur-glass px-2 py-2">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 glass-panel border-t border-slate-800/80 light:border-slate-300 backdrop-blur-glass px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom,0px))]">
       <div className="flex items-center justify-around">
         <button
           onClick={() => onSelectView('today')}

@@ -67,16 +67,16 @@ export const Header: React.FC<HeaderProps> = ({
   }
 
   return (
-    <header className="sticky top-0 z-30 w-full glass-panel border-b border-slate-800/80 light:border-slate-200/80 backdrop-blur-glass px-4 sm:px-6 py-3 transition-colors">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-30 w-full glass-panel border-b border-slate-800/80 light:border-slate-200/80 backdrop-blur-glass px-3 sm:px-6 pt-[calc(env(safe-area-inset-top,0px)+0.5rem)] pb-2.5 sm:py-3 transition-colors">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
         {/* Logo & Brand */}
-        <div className="flex items-center gap-3">
-          <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 shadow-glass-glow border border-violet-400/30">
-            <img src={focusflowLogo} alt="" className="h-10 w-10 object-contain" />
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 shadow-glass-glow border border-violet-400/30">
+            <img src={focusflowLogo} alt="" className="h-8 w-8 sm:h-10 sm:w-10 object-contain" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-base sm:text-lg font-bold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-violet-400 bg-clip-text text-transparent">
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <h1 className="text-sm sm:text-lg font-bold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-violet-400 bg-clip-text text-transparent truncate">
                 FocusFlow
               </h1>
               <span className="hidden sm:inline-block text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/30">
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Right Action Bar */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           {/* Sync & Network Status Pill */}
           <button
             onClick={handleManualSync}
@@ -117,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* User Auth Profile / Login Button */}
           {isAuthenticated ? (
-            <div className="flex items-center gap-1.5 bg-navy-900/80 light:bg-slate-200/80 border border-slate-700/60 light:border-slate-300 rounded-xl px-2.5 py-1">
+            <div className="flex items-center gap-1 bg-navy-900/80 light:bg-slate-200/80 border border-slate-700/60 light:border-slate-300 rounded-xl px-1.5 sm:px-2.5 py-1">
               <div className="h-5 w-5 rounded-full bg-violet-600/30 border border-violet-400/40 flex items-center justify-center text-[10px] text-violet-300 font-bold">
                 {user?.email?.charAt(0).toUpperCase() || 'U'}
               </div>
@@ -126,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
               <button
                 onClick={() => signOut()}
-                className="p-1 text-slate-400 hover:text-rose-400 transition-colors"
+                className="p-0.5 sm:p-1 text-slate-400 hover:text-rose-400 transition-colors"
                 title="Sign Out"
                 aria-label="Sign Out"
               >
@@ -136,7 +136,7 @@ export const Header: React.FC<HeaderProps> = ({
           ) : (
             <button
               onClick={onOpenAuthModal}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-navy-900 light:bg-slate-200 border border-slate-700/60 light:border-slate-300 text-slate-200 light:text-slate-800 hover:border-violet-500/50 transition-colors"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-medium bg-navy-900 light:bg-slate-200 border border-slate-700/60 light:border-slate-300 text-slate-200 light:text-slate-800 hover:border-violet-500/50 transition-colors"
             >
               <User className="h-3.5 w-3.5 text-violet-400" />
               <span className="hidden sm:inline">Sign In</span>
@@ -146,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Notification / Reminders Settings Button */}
           <button
             onClick={onOpenNotificationSettingsModal}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
             aria-label="Notification and Reminder settings"
             title="Notification & Reminder Settings"
           >
@@ -156,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Sound Toggle */}
           <button
             onClick={toggleSound}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
             aria-label={soundEnabled ? 'Mute sound chimes' : 'Unmute sound chimes'}
             title={soundEnabled ? 'Sound is ON' : 'Sound is OFF'}
           >
@@ -166,7 +166,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
             aria-label="Toggle theme"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
           >
@@ -177,16 +177,15 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </button>
 
-          {/* New Task CTA */}
+          {/* New Task CTA (hidden on mobile; MobileNav provides bottom center quick-add button) */}
           <Button
             onClick={onOpenNewTaskModal}
             variant="primary"
             size="sm"
             leftIcon={<Plus className="h-4 w-4" />}
-            className="shadow-glass-glow"
+            className="shadow-glass-glow hidden sm:inline-flex"
           >
-            <span className="hidden sm:inline">New Task</span>
-            <span className="sm:hidden">New</span>
+            <span>New Task</span>
           </Button>
         </div>
       </div>

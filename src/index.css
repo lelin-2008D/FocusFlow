@@ -82,6 +82,14 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(148, 163, 184, 0.4);
   }
+
+  /* Mobile Safe Area Insets for notches, punch-holes, and gesture bars */
+  .pt-safe {
+    padding-top: max(env(safe-area-inset-top, 0px), 0.75rem);
+  }
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.5rem);
+  }
 }
 
 /* Reduced motion preference */

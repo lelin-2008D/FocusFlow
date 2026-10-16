@@ -25,14 +25,16 @@ export function App() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false)
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null)
-  const [isDbReady, setIsDbReady] = useState(false)
 
   useEffect(() => {
-    initializeDatabase().then(() => {
-      setIsDbReady(true)
-      // Start background periodic sync engine
-      syncEngine.startPeriodicSync(30000)
-    })
+    initializeDatabase()
+      .then(() => {
+        // Start background periodic sync engine
+        syncEngine.startPeriodicSync(30000)
+      })
+      .catch((err) => {
+        console.warn('Database initialization warning:', err)
+      })
 
     // Listen for Service Worker messages (e.g. user clicked notification action buttons)
     if ('serviceWorker' in navigator) {
@@ -140,15 +142,8 @@ export function App() {
           className="hidden md:flex"
         />
 
-        <main className="flex-1 px-4 sm:px-8 py-6 max-w-4xl w-full overflow-y-auto">
-          {!isDbReady ? (
-            <div className="flex items-center justify-center py-20 text-slate-400">
-              <div className="animate-spin h-6 w-6 border-2 border-violet-500 border-t-transparent rounded-full mr-3" />
-              <span>Loading FocusFlow database...</span>
-            </div>
-          ) : (
-            renderActiveView()
-          )}
+        <main className="flex-1 px-4 sm:px-8 pt-4 sm:pt-6 pb-28 md:pb-8 max-w-4xl w-full overflow-y-auto">
+          {renderActiveView()}
         </main>
       </div>
 

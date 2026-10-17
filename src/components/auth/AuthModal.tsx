@@ -67,7 +67,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     >
       {!configured ? (
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs space-y-2">
+          <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 light:text-amber-800 text-xs space-y-2">
             <div className="flex items-center gap-2 font-semibold">
               <Info className="h-4 w-4" />
               <span>Offline-First Mode Active</span>
@@ -75,10 +75,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             <p className="leading-relaxed">
               FocusFlow is functioning in <strong>100% offline-first mode</strong> using your browser's IndexedDB.
             </p>
-            <p className="leading-relaxed text-amber-400/80">
-              To enable cloud synchronization across multiple devices, configure your Supabase credentials in <code className="px-1.5 py-0.5 rounded bg-black/40 font-mono">.env</code>:
+            <p className="leading-relaxed text-amber-400/80 light:text-amber-800/80">
+              To enable cloud synchronization across multiple devices, configure your Supabase credentials in <code className="px-1.5 py-0.5 rounded bg-forest-950/60 light:bg-forest-200 font-mono">.env</code>:
             </p>
-            <pre className="bg-black/60 p-2 rounded text-[11px] font-mono text-slate-300 overflow-x-auto">
+            <pre className="bg-forest-950/80 light:bg-forest-100 p-2 rounded text-[11px] font-mono text-forest-300 light:text-forest-800 overflow-x-auto border border-mint-400/10">
               VITE_SUPABASE_URL=https://xyz.supabase.co&#10;VITE_SUPABASE_ANON_KEY=eyJhbGci...
             </pre>
           </div>
@@ -89,7 +89,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       ) : (
         <div>
           {/* Tab buttons */}
-          <div className="flex rounded-xl bg-navy-950 light:bg-slate-200 p-1 mb-4">
+          <div className="flex rounded-xl bg-forest-950/70 light:bg-mint-100 p-1 mb-4 border border-mint-400/10">
             <button
               type="button"
               onClick={() => {
@@ -98,8 +98,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               }}
               className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
                 tab === 'signin'
-                  ? 'bg-violet-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-gradient-to-r from-forest-800 to-emerald-700 text-mint-100 shadow-sm border border-mint-400/20'
+                  : 'text-forest-400 light:text-forest-600 hover:text-white light:hover:text-forest-950'
               }`}
             >
               Sign In
@@ -112,8 +112,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               }}
               className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-all ${
                 tab === 'signup'
-                  ? 'bg-violet-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-gradient-to-r from-forest-800 to-emerald-700 text-mint-100 shadow-sm border border-mint-400/20'
+                  : 'text-forest-400 light:text-forest-600 hover:text-white light:hover:text-forest-950'
               }`}
             >
               Create Account
@@ -122,19 +122,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
           <form onSubmit={handleSubmit} className="space-y-3.5">
             {error && (
-              <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
+              <div className="p-3 rounded-xl bg-rose-500/15 light:bg-rose-50 border border-rose-500/30 light:border-rose-700/20 text-rose-300 light:text-rose-800 text-xs">
                 {error}
               </div>
             )}
 
             {successMsg && (
-              <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs">
+              <div className="p-3 rounded-xl bg-emerald-500/15 light:bg-emerald-50 border border-emerald-500/30 light:border-emerald-700/20 text-emerald-300 light:text-emerald-800 text-xs">
                 {successMsg}
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+              <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
                 Email Address
               </label>
               <input
@@ -148,7 +148,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+              <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
                 Password
               </label>
               <input

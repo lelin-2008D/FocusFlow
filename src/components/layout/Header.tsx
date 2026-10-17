@@ -67,23 +67,23 @@ export const Header: React.FC<HeaderProps> = ({
   }
 
   return (
-    <header className="sticky top-0 z-30 w-full glass-panel border-b border-slate-800/80 light:border-slate-200/80 backdrop-blur-glass px-3 sm:px-6 pt-[calc(env(safe-area-inset-top,0px)+0.5rem)] pb-2.5 sm:py-3 transition-colors">
+    <header className="sticky top-0 z-30 w-full glass-navbar border-b border-forest-800/80 light:border-forest-700/20 px-3 sm:px-6 pt-[calc(env(safe-area-inset-top,0px)+0.5rem)] pb-2.5 sm:py-3 transition-colors">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
         {/* Logo & Brand */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 shadow-glass-glow border border-violet-400/30">
+          <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-tr from-forest-900 via-forest-800 to-emerald-700 shadow-glass-glow border border-mint-400/30">
             <img src={focusflowLogo} alt="" className="h-8 w-8 sm:h-10 sm:w-10 object-contain" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <h1 className="text-sm sm:text-lg font-bold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-violet-400 bg-clip-text text-transparent truncate">
+              <h1 className="text-sm sm:text-lg font-bold tracking-tight bg-gradient-to-r from-mint-300 via-mint-100 to-mint-400 bg-clip-text text-transparent truncate">
                 FocusFlow
               </h1>
-              <span className="hidden sm:inline-block text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/30">
+              <span className="hidden sm:inline-block text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-forest-800/80 text-mint-300 border border-mint-400/30">
                 PWA
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 light:text-slate-500 hidden md:block">
+            <p className="text-[11px] text-forest-400 light:text-forest-600 hidden md:block">
               Smart Offline-First Task Engine
             </p>
           </div>
@@ -94,17 +94,17 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Sync & Network Status Pill */}
           <button
             onClick={handleManualSync}
-            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border backdrop-blur-xs transition-colors focus:outline-none focus:ring-1 focus:ring-violet-500 ${
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border backdrop-blur-xs transition-colors focus:outline-none focus:ring-1 focus:ring-mint-400 ${
               syncStatus === 'syncing'
-                ? 'bg-blue-500/15 text-blue-400 border-blue-500/30'
+                ? 'bg-emerald-700/20 light:bg-mint-100 text-mint-300 light:text-forest-900 border-mint-400/30 light:border-forest-700/20'
                 : isOnline
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20'
-                : 'bg-amber-500/15 text-amber-300 border-amber-500/40 animate-pulse'
+                ? 'bg-emerald-700/15 light:bg-emerald-50 text-mint-300 light:text-emerald-800 border-emerald-600/30 light:border-emerald-700/20 hover:bg-emerald-700/25'
+                : 'bg-amber-500/15 light:bg-amber-50 text-amber-300 light:text-amber-800 border-amber-500/40 light:border-amber-700/20 animate-pulse'
             }`}
             title="Click to trigger cloud synchronization"
           >
             {syncStatus === 'syncing' ? (
-              <RefreshCw className="h-3 w-3 animate-spin text-blue-400" />
+              <RefreshCw className="h-3 w-3 animate-spin text-mint-300 light:text-forest-800" />
             ) : isOnline ? (
               <Wifi className="h-3 w-3" />
             ) : (
@@ -117,16 +117,16 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* User Auth Profile / Login Button */}
           {isAuthenticated ? (
-            <div className="flex items-center gap-1 bg-navy-900/80 light:bg-slate-200/80 border border-slate-700/60 light:border-slate-300 rounded-xl px-1.5 sm:px-2.5 py-1">
-              <div className="h-5 w-5 rounded-full bg-violet-600/30 border border-violet-400/40 flex items-center justify-center text-[10px] text-violet-300 font-bold">
+            <div className="flex items-center gap-1 bg-forest-900/80 light:bg-mint-100/80 border border-forest-700/60 light:border-mint-200 rounded-xl px-1.5 sm:px-2.5 py-1">
+              <div className="h-5 w-5 rounded-full bg-emerald-700/40 border border-mint-400/40 flex items-center justify-center text-[10px] text-mint-200 font-bold">
                 {user?.email?.charAt(0).toUpperCase() || 'U'}
               </div>
-              <span className="text-xs text-slate-300 light:text-slate-700 hidden lg:inline max-w-[120px] truncate">
+              <span className="text-xs text-mint-100 light:text-forest-950 hidden lg:inline max-w-[120px] truncate">
                 {user?.email}
               </span>
               <button
                 onClick={() => signOut()}
-                className="p-0.5 sm:p-1 text-slate-400 hover:text-rose-400 transition-colors"
+                className="p-0.5 sm:p-1 text-forest-400 hover:text-rose-400 transition-colors"
                 title="Sign Out"
                 aria-label="Sign Out"
               >
@@ -136,9 +136,9 @@ export const Header: React.FC<HeaderProps> = ({
           ) : (
             <button
               onClick={onOpenAuthModal}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-medium bg-navy-900 light:bg-slate-200 border border-slate-700/60 light:border-slate-300 text-slate-200 light:text-slate-800 hover:border-violet-500/50 transition-colors"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-medium bg-forest-900 light:bg-mint-100/80 border border-forest-700/60 light:border-mint-200 text-mint-100 light:text-forest-950 hover:border-mint-400/50 transition-colors"
             >
-              <User className="h-3.5 w-3.5 text-violet-400" />
+              <User className="h-3.5 w-3.5 text-mint-400" />
               <span className="hidden sm:inline">Sign In</span>
             </button>
           )}
@@ -146,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Notification / Reminders Settings Button */}
           <button
             onClick={onOpenNotificationSettingsModal}
-            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none focus:ring-2 focus:ring-mint-400"
             aria-label="Notification and Reminder settings"
             title="Notification & Reminder Settings"
           >
@@ -156,24 +156,24 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Sound Toggle */}
           <button
             onClick={toggleSound}
-            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none focus:ring-2 focus:ring-mint-400"
             aria-label={soundEnabled ? 'Mute sound chimes' : 'Unmute sound chimes'}
             title={soundEnabled ? 'Sound is ON' : 'Sound is OFF'}
           >
-            {soundEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4 text-slate-500" />}
+            {soundEnabled ? <Volume2 className="h-4 w-4 text-mint-400" /> : <VolumeX className="h-4 w-4 text-forest-500" />}
           </button>
 
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-100 light:hover:text-slate-900 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none focus:ring-2 focus:ring-mint-400"
             aria-label="Toggle theme"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
           >
             {theme === 'dark' ? (
               <Sun className="h-4 w-4 text-amber-300" />
             ) : (
-              <Moon className="h-4 w-4 text-indigo-600" />
+              <Moon className="h-4 w-4 text-emerald-700" />
             )}
           </button>
 

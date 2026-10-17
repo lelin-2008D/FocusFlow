@@ -92,15 +92,15 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
       description="Manage Web Push alerts, quiet hours, and delivery preferences."
       maxWidth="md"
     >
-      <div className="space-y-5 text-xs text-slate-300 light:text-slate-700">
+      <div className="space-y-5 text-xs text-forest-300 light:text-forest-700">
         {message && (
           <div
             className={`p-3 rounded-xl border text-xs ${
               message.type === 'success'
-                ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
+                ? 'bg-emerald-500/15 light:bg-emerald-50 border-emerald-500/30 light:border-emerald-700/20 text-emerald-300 light:text-emerald-800'
                 : message.type === 'error'
-                ? 'bg-rose-500/15 border-rose-500/30 text-rose-300'
-                : 'bg-blue-500/15 border-blue-500/30 text-blue-300'
+                ? 'bg-rose-500/15 light:bg-rose-50 border-rose-500/30 light:border-rose-700/20 text-rose-300 light:text-rose-800'
+                : 'bg-mint-400/10 light:bg-mint-50 border-mint-400/30 light:border-forest-700/20 text-mint-200 light:text-forest-900'
             }`}
           >
             {message.text}
@@ -111,14 +111,14 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
         <div className="p-4 rounded-xl glass-panel space-y-3">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-violet-600/20 text-violet-400">
+              <div className="p-2 rounded-lg bg-forest-800/80 text-mint-300 border border-mint-400/20">
                 <Bell className="h-4 w-4" />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-white light:text-slate-900">
+                <h4 className="text-sm font-semibold text-white light:text-forest-900">
                   Web Push Notifications
                 </h4>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-forest-400">
                   Receive server-driven alerts for due tasks even when the app is closed.
                 </p>
               </div>
@@ -134,16 +134,16 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
             </Button>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800 light:border-slate-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-forest-800 light:border-forest-200">
             <div className="flex items-center gap-2">
-              <span className="text-slate-400">Permission:</span>
+              <span className="text-forest-400">Permission:</span>
               <span
                 className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                   status.permission === 'granted'
-                    ? 'bg-emerald-500/20 text-emerald-400'
+                    ? 'bg-emerald-500/20 light:bg-emerald-50 text-emerald-400 light:text-emerald-800'
                     : status.permission === 'denied'
-                    ? 'bg-rose-500/20 text-rose-400'
-                    : 'bg-amber-500/20 text-amber-400'
+                    ? 'bg-rose-500/20 light:bg-rose-50 text-rose-400 light:text-rose-800'
+                    : 'bg-amber-500/20 light:bg-amber-50 text-amber-400 light:text-amber-800'
                 }`}
               >
                 {status.permission}
@@ -153,7 +153,7 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
             {status.permission === 'granted' && (
               <button
                 onClick={handleTestNotification}
-                className="flex items-center gap-1.5 text-xs text-violet-400 hover:text-violet-300 font-medium"
+                className="flex items-center gap-1.5 text-xs text-mint-400 light:text-forest-700 hover:text-mint-300 light:hover:text-forest-900 font-medium transition-colors"
               >
                 <Send className="h-3.5 w-3.5" />
                 <span>Send Test Alert</span>
@@ -166,14 +166,14 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
         <div className="p-4 rounded-xl glass-panel space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-indigo-600/20 text-indigo-400">
+              <div className="p-2 rounded-lg bg-emerald-900/40 text-mint-300 border border-mint-400/20">
                 <Moon className="h-4 w-4" />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-white light:text-slate-900">
+                <h4 className="text-sm font-semibold text-white light:text-forest-900">
                   Quiet Hours
                 </h4>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-forest-400">
                   Suppress alert sounds and postpone push delivery during sleep hours.
                 </p>
               </div>
@@ -183,14 +183,14 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
               type="checkbox"
               checked={settings?.quietHoursEnabled ?? false}
               onChange={handleQuietHoursToggle}
-              className="h-4 w-4 rounded accent-violet-600 cursor-pointer"
+              className="h-4 w-4 rounded accent-emerald-600 cursor-pointer"
             />
           </div>
 
           {settings?.quietHoursEnabled && (
-            <div className="flex items-center gap-3 pt-2 border-t border-slate-800 light:border-slate-200">
+            <div className="flex items-center gap-3 pt-2 border-t border-forest-800 light:border-forest-200">
               <div className="flex items-center gap-1.5">
-                <span className="text-slate-400 text-xs">From:</span>
+                <span className="text-forest-400 text-xs">From:</span>
                 <input
                   type="time"
                   value={settings.quietHoursStart}
@@ -199,7 +199,7 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
                 />
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="text-slate-400 text-xs">To:</span>
+                <span className="text-forest-400 text-xs">To:</span>
                 <input
                   type="time"
                   value={settings.quietHoursEnd}
@@ -212,12 +212,12 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
         </div>
 
         {/* Platform Limitations & Technical Guarantees Guide */}
-        <div className="p-4 rounded-xl bg-navy-950/80 light:bg-slate-100 border border-slate-800 light:border-slate-300 space-y-2">
-          <div className="flex items-center gap-2 font-semibold text-slate-200 light:text-slate-800">
-            <HelpCircle className="h-4 w-4 text-violet-400" />
+        <div className="p-4 rounded-xl bg-forest-950/80 light:bg-mint-50/80 border border-mint-400/20 light:border-mint-200 space-y-2">
+          <div className="flex items-center gap-2 font-semibold text-forest-200 light:text-forest-800">
+            <HelpCircle className="h-4 w-4 text-mint-400" />
             <span>Platform Requirements & Battery Delivery Notes</span>
           </div>
-          <ul className="list-disc list-inside space-y-1 text-[11px] text-slate-400 light:text-slate-600 leading-relaxed">
+          <ul className="list-disc list-inside space-y-1 text-[11px] text-forest-400 light:text-forest-600 leading-relaxed">
             <li>
               <strong>iPhone / iPad (iOS 16.4+):</strong> Apple requires adding FocusFlow to your Home Screen (Share → "Add to Home Screen") before enabling Web Push.
             </li>

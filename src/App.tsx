@@ -126,7 +126,7 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950 light:bg-slate-50 transition-colors">
+    <div className="min-h-screen flex flex-col bg-forest-950 light:bg-mint-50 transition-colors text-mint-100 light:text-forest-950">
       <Header
         onOpenNewTaskModal={handleOpenNewTask}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}

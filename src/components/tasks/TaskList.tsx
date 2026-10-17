@@ -31,7 +31,7 @@ export const TaskList: React.FC<TaskListProps> = ({
         {[1, 2, 3].map((n) => (
           <div
             key={n}
-            className="h-24 rounded-2xl glass-panel animate-pulse-subtle bg-slate-800/30"
+            className="h-24 rounded-2xl glass-panel animate-pulse-subtle bg-forest-800/30"
           />
         ))}
       </div>
@@ -40,18 +40,18 @@ export const TaskList: React.FC<TaskListProps> = ({
 
   if (tasks.length === 0) {
     return (
-      <div className="glass-panel rounded-2xl p-12 text-center border-dashed border-slate-700/60 light:border-slate-300">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-500/10 to-violet-500/15 border border-violet-500/20 text-violet-400 mb-4">
+      <div className="glass-panel rounded-2xl p-8 sm:p-12 text-center border-dashed border-forest-800 light:border-mint-200">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-forest-900/60 to-emerald-700/40 border border-mint-400/30 text-mint-400 mb-4 shadow-glass-sm">
           {isTrashView ? (
             <Inbox className="h-7 w-7" />
           ) : (
             <CheckCircle className="h-7 w-7" />
           )}
         </div>
-        <h3 className="text-base font-semibold text-slate-100 light:text-slate-800 mb-1">
+        <h3 className="text-base font-semibold text-mint-100 light:text-forest-950 mb-1">
           {emptyMessage}
         </h3>
-        <p className="text-xs text-slate-400 light:text-slate-600 max-w-sm mx-auto">
+        <p className="text-xs text-forest-400 light:text-forest-600 max-w-sm mx-auto">
           {emptySubtext}
         </p>
       </div>

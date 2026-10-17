@@ -24,62 +24,66 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
   onSortOrderToggle,
 }) => {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2.5 py-2 text-xs">
+    <div className="flex w-full flex-wrap items-center justify-start gap-2.5 py-2 text-xs sm:justify-between">
       {/* Filter Pickers */}
       <div className="flex flex-wrap items-center gap-2">
-        <div className="flex items-center gap-1.5 bg-navy-900/60 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl px-2.5 py-1 text-slate-300 light:text-slate-700">
-          <Filter className="h-3.5 w-3.5 text-slate-400" />
-          <span className="text-[11px] text-slate-500 font-medium">Priority:</span>
+        <div className="flex items-center gap-1.5 bg-forest-900/70 light:bg-mint-100/90 border border-mint-400/20 light:border-forest-700/20 rounded-xl px-2.5 py-1 text-mint-100 light:text-forest-950 backdrop-blur-sm">
+          <Filter className="h-3.5 w-3.5 text-mint-400 light:text-forest-700" />
+          <span className="text-[11px] text-mint-300 light:text-forest-700 font-medium">Priority:</span>
           <select
             value={priority}
             onChange={(e) => onPriorityChange(e.target.value as any)}
-            className="bg-transparent focus:outline-none cursor-pointer"
+            aria-label="Filter tasks by priority"
+            className="max-w-[10.5rem] bg-transparent cursor-pointer rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-mint-400/70 text-mint-100 light:text-forest-950"
           >
-            <option value="all" className="bg-navy-900 text-white">All Priorities</option>
-            <option value="urgent" className="bg-navy-900 text-white">Urgent</option>
-            <option value="high" className="bg-navy-900 text-white">High</option>
-            <option value="medium" className="bg-navy-900 text-white">Medium</option>
-            <option value="low" className="bg-navy-900 text-white">Low</option>
+            <option value="all" className="bg-forest-900 text-mint-100">All Priorities</option>
+            <option value="urgent" className="bg-forest-900 text-mint-100">Urgent</option>
+            <option value="high" className="bg-forest-900 text-mint-100">High</option>
+            <option value="medium" className="bg-forest-900 text-mint-100">Medium</option>
+            <option value="low" className="bg-forest-900 text-mint-100">Low</option>
           </select>
         </div>
 
-        <div className="flex items-center gap-1.5 bg-navy-900/60 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl px-2.5 py-1 text-slate-300 light:text-slate-700">
-          <span className="text-[11px] text-slate-500 font-medium">Category:</span>
+        <div className="flex items-center gap-1.5 bg-forest-900/70 light:bg-mint-100/90 border border-mint-400/20 light:border-forest-700/20 rounded-xl px-2.5 py-1 text-mint-100 light:text-forest-950 backdrop-blur-sm">
+          <span className="text-[11px] text-mint-300 light:text-forest-700 font-medium">Category:</span>
           <select
             value={category}
             onChange={(e) => onCategoryChange(e.target.value as any)}
-            className="bg-transparent focus:outline-none cursor-pointer"
+            aria-label="Filter tasks by category"
+            className="max-w-[9.5rem] bg-transparent cursor-pointer rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-mint-400/70 text-mint-100 light:text-forest-950"
           >
-            <option value="all" className="bg-navy-900 text-white">All Categories</option>
-            <option value="coding" className="bg-navy-900 text-white">Coding</option>
-            <option value="work" className="bg-navy-900 text-white">Work</option>
-            <option value="personal" className="bg-navy-900 text-white">Personal</option>
-            <option value="study" className="bg-navy-900 text-white">Study</option>
-            <option value="health" className="bg-navy-900 text-white">Health</option>
-            <option value="finance" className="bg-navy-900 text-white">Finance</option>
-            <option value="other" className="bg-navy-900 text-white">Other</option>
+            <option value="all" className="bg-forest-900 text-mint-100">All Categories</option>
+            <option value="coding" className="bg-forest-900 text-mint-100">Coding</option>
+            <option value="work" className="bg-forest-900 text-mint-100">Work</option>
+            <option value="personal" className="bg-forest-900 text-mint-100">Personal</option>
+            <option value="study" className="bg-forest-900 text-mint-100">Study</option>
+            <option value="health" className="bg-forest-900 text-mint-100">Health</option>
+            <option value="finance" className="bg-forest-900 text-mint-100">Finance</option>
+            <option value="other" className="bg-forest-900 text-mint-100">Other</option>
           </select>
         </div>
       </div>
 
       {/* Sort Selector */}
       <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1.5 bg-navy-900/60 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl px-2.5 py-1 text-slate-300 light:text-slate-700">
-          <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
-          <span className="text-[11px] text-slate-500 font-medium">Sort:</span>
+        <div className="flex items-center gap-1.5 bg-forest-900/70 light:bg-mint-100/90 border border-mint-400/20 light:border-forest-700/20 rounded-xl px-2.5 py-1 text-mint-100 light:text-forest-950 backdrop-blur-sm">
+          <ArrowUpDown className="h-3.5 w-3.5 text-mint-400 light:text-forest-700" />
+          <span className="text-[11px] text-mint-300 light:text-forest-700 font-medium">Sort:</span>
           <select
             value={sortBy}
             onChange={(e) => onSortByChange(e.target.value as any)}
-            className="bg-transparent focus:outline-none cursor-pointer"
+            aria-label="Sort tasks by"
+            className="max-w-[8rem] bg-transparent cursor-pointer rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-mint-400/70 text-mint-100 light:text-forest-950"
           >
-            <option value="dueDate" className="bg-navy-900 text-white">Due Date</option>
-            <option value="priority" className="bg-navy-900 text-white">Priority</option>
-            <option value="title" className="bg-navy-900 text-white">Title</option>
-            <option value="createdAt" className="bg-navy-900 text-white">Created Date</option>
+            <option value="dueDate" className="bg-forest-900 text-mint-100">Due Date</option>
+            <option value="priority" className="bg-forest-900 text-mint-100">Priority</option>
+            <option value="title" className="bg-forest-900 text-mint-100">Title</option>
+            <option value="createdAt" className="bg-forest-900 text-mint-100">Created Date</option>
           </select>
           <button
             onClick={onSortOrderToggle}
-            className="ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-800 hover:bg-slate-700 text-violet-400"
+            aria-label={`Sort ${sortOrder === 'asc' ? 'descending' : 'ascending'}`}
+            className="ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-forest-800 hover:bg-forest-700 light:bg-emerald-700 light:hover:bg-emerald-800 text-mint-300 light:text-white border border-mint-400/25 transition-colors"
             title={`Switch to ${sortOrder === 'asc' ? 'descending' : 'ascending'}`}
           >
             {sortOrder}

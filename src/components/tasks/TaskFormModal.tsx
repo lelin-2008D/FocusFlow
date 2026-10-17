@@ -112,14 +112,14 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
     >
       <form onSubmit={handleSubmit} className="space-y-4 text-sm">
         {error && (
-          <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
+          <div className="p-3 rounded-xl bg-rose-500/15 light:bg-rose-50 border border-rose-500/30 light:border-rose-700/20 text-rose-300 light:text-rose-800 text-xs">
             {error}
           </div>
         )}
 
         {/* Task Title */}
         <div>
-          <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+          <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
             Task Title <span className="text-rose-400">*</span>
           </label>
           <input
@@ -134,7 +134,7 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
 
         {/* Description */}
         <div>
-          <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+          <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
             Description
           </label>
           <textarea
@@ -149,7 +149,7 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
         {/* Priority & Category Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
               Priority
             </label>
             <select
@@ -157,15 +157,15 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
               onChange={(e) => setPriority(e.target.value as Priority)}
               className="w-full px-3 py-2 rounded-xl glass-input text-sm"
             >
-              <option value="urgent" className="bg-navy-900 text-white">🔴 Urgent</option>
-              <option value="high" className="bg-navy-900 text-white">🟠 High</option>
-              <option value="medium" className="bg-navy-900 text-white">🔵 Medium</option>
-              <option value="low" className="bg-navy-900 text-white">⚪ Low</option>
+              <option value="urgent" className="bg-forest-900 text-mint-100">🔴 Urgent</option>
+              <option value="high" className="bg-forest-900 text-mint-100">🟠 High</option>
+              <option value="medium" className="bg-forest-900 text-mint-100">🔵 Medium</option>
+              <option value="low" className="bg-forest-900 text-mint-100">⚪ Low</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
               Category
             </label>
             <select
@@ -173,13 +173,13 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
               onChange={(e) => setCategory(e.target.value as Category)}
               className="w-full px-3 py-2 rounded-xl glass-input text-sm"
             >
-              <option value="coding" className="bg-navy-900 text-white">💻 Coding</option>
-              <option value="work" className="bg-navy-900 text-white">💼 Work</option>
-              <option value="personal" className="bg-navy-900 text-white">👤 Personal</option>
-              <option value="study" className="bg-navy-900 text-white">📚 Study</option>
-              <option value="health" className="bg-navy-900 text-white">🧘 Health</option>
-              <option value="finance" className="bg-navy-900 text-white">💰 Finance</option>
-              <option value="other" className="bg-navy-900 text-white">📌 Other</option>
+              <option value="coding" className="bg-forest-900 text-mint-100">💻 Coding</option>
+              <option value="work" className="bg-forest-900 text-mint-100">💼 Work</option>
+              <option value="personal" className="bg-forest-900 text-mint-100">👤 Personal</option>
+              <option value="study" className="bg-forest-900 text-mint-100">📚 Study</option>
+              <option value="health" className="bg-forest-900 text-mint-100">🧘 Health</option>
+              <option value="finance" className="bg-forest-900 text-mint-100">💰 Finance</option>
+              <option value="other" className="bg-forest-900 text-mint-100">📌 Other</option>
             </select>
           </div>
         </div>
@@ -187,7 +187,7 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
         {/* Project Selector & Due Date */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
               Project
             </label>
             <select
@@ -195,9 +195,9 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
               onChange={(e) => setProjectId(e.target.value)}
               className="w-full px-3 py-2 rounded-xl glass-input text-sm"
             >
-              <option value="" className="bg-navy-900 text-white">No Project</option>
+              <option value="" className="bg-forest-900 text-mint-100">No Project</option>
               {projects.map((proj) => (
-                <option key={proj.id} value={proj.id} className="bg-navy-900 text-white">
+                <option key={proj.id} value={proj.id} className="bg-forest-900 text-mint-100">
                   {proj.name}
                 </option>
               ))}
@@ -205,53 +205,53 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
               Due Date & Time
             </label>
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <input
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl glass-input text-sm"
+                className="w-full min-w-0 px-3 py-2 rounded-xl glass-input text-sm"
               />
               <input
                 type="time"
                 value={dueTime}
                 onChange={(e) => setDueTime(e.target.value)}
-                className="w-28 px-2 py-2 rounded-xl glass-input text-sm"
+                className="w-full sm:w-28 shrink-0 px-2 py-2 rounded-xl glass-input text-sm"
               />
             </div>
           </div>
         </div>
 
         {/* Reminder & Recurrence Controls */}
-        <div className="p-3 rounded-xl bg-navy-950/60 light:bg-slate-100 border border-slate-800 light:border-slate-300 space-y-2.5">
+        <div className="p-3 rounded-xl bg-forest-950/70 light:bg-mint-50/80 border border-mint-400/20 light:border-mint-200 space-y-2.5">
           <div className="flex items-center justify-between">
-            <label className="flex items-center gap-2 text-xs font-medium text-slate-300 light:text-slate-700 cursor-pointer">
+            <label className="flex items-center gap-2 text-xs font-medium text-forest-300 light:text-forest-700 cursor-pointer">
               <input
                 type="checkbox"
                 checked={reminderEnabled}
                 onChange={(e) => setReminderEnabled(e.target.checked)}
-                className="h-4 w-4 rounded accent-violet-600 cursor-pointer"
+                className="h-4 w-4 rounded accent-emerald-600 cursor-pointer"
               />
               <span>Enable Reminder & Web Push Notification</span>
             </label>
           </div>
 
           {reminderEnabled && (
-            <div className="pt-2 border-t border-slate-800 light:border-slate-200 flex items-center gap-3">
-              <label className="text-xs text-slate-400">Recurrence:</label>
+            <div className="pt-2 border-t border-forest-800 light:border-forest-200 flex items-center gap-3">
+              <label className="text-xs text-forest-400">Recurrence:</label>
               <select
                 value={reminderRule}
                 onChange={(e) => setReminderRule(e.target.value as any)}
                 className="px-2.5 py-1.5 rounded-lg glass-input text-xs"
               >
-                <option value="once" className="bg-navy-900 text-white">One-time alert</option>
-                <option value="daily" className="bg-navy-900 text-white">Daily</option>
-                <option value="weekdays" className="bg-navy-900 text-white">Weekdays (Mon-Fri)</option>
-                <option value="weekly" className="bg-navy-900 text-white">Weekly</option>
-                <option value="monthly" className="bg-navy-900 text-white">Monthly</option>
+                <option value="once" className="bg-forest-900 text-mint-100">One-time alert</option>
+                <option value="daily" className="bg-forest-900 text-mint-100">Daily</option>
+                <option value="weekdays" className="bg-forest-900 text-mint-100">Weekdays (Mon-Fri)</option>
+                <option value="weekly" className="bg-forest-900 text-mint-100">Weekly</option>
+                <option value="monthly" className="bg-forest-900 text-mint-100">Monthly</option>
               </select>
             </div>
           )}
@@ -260,7 +260,7 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
         {/* Initial Subtasks (for new task creation) */}
         {!taskToEdit && (
           <div>
-            <label className="block text-xs font-medium text-slate-300 light:text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-forest-300 light:text-forest-700 mb-1">
               Initial Subtasks (one per line)
             </label>
             <textarea
@@ -274,7 +274,7 @@ export const TaskFormModal: React.FC<TaskFormModalProps> = ({
         )}
 
         {/* Actions */}
-        <div className="mt-6 pt-4 border-t border-slate-800 light:border-slate-200 flex items-center justify-end gap-3">
+        <div className="mt-6 pt-4 border-t border-forest-800 light:border-forest-200 flex items-center justify-end gap-3">
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancel
           </Button>

@@ -2,9 +2,9 @@ import { db } from './index'
 import type { Project, UserSettings, Task } from '../types/task'
 
 export const DEFAULT_PROJECTS: Project[] = [
-  { id: 'proj-coding', name: 'Coding & Dev', color: '#3B82F6', icon: 'Code', createdAt: new Date().toISOString() },
-  { id: 'proj-work', name: 'Work / Clients', color: '#8B5CF6', icon: 'Briefcase', createdAt: new Date().toISOString() },
-  { id: 'proj-personal', name: 'Personal Life', color: '#10B981', icon: 'User', createdAt: new Date().toISOString() },
+  { id: 'proj-coding', name: 'Coding & Dev', color: '#8EB69B', icon: 'Code', createdAt: new Date().toISOString() },
+  { id: 'proj-work', name: 'Work / Clients', color: '#235347', icon: 'Briefcase', createdAt: new Date().toISOString() },
+  { id: 'proj-personal', name: 'Personal Life', color: '#2D6A5B', icon: 'User', createdAt: new Date().toISOString() },
 ]
 
 export const DEFAULT_SETTINGS: UserSettings = {

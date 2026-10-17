@@ -16,8 +16,8 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   return (
     <div
       className={cn(
-        'glass-panel rounded-2xl p-5 shadow-glass-sm transition-all duration-200',
-        hoverEffect && 'glass-panel-hover cursor-pointer',
+        hoverEffect ? 'glass-card cursor-pointer' : 'glass-panel',
+        'rounded-2xl p-5 shadow-glass-sm',
         glow && 'hover:shadow-glass-glow',
         className
       )}

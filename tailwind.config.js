@@ -8,41 +8,75 @@ export default {
   theme: {
     extend: {
       colors: {
+        forest: {
+          950: '#051F20', // Deep Forest Green
+          900: '#0B2B26', // Dark Teal Green
+          850: '#10332C',
+          800: '#163832', // Forest Green
+          700: '#235347', // Emerald Green
+          600: '#2D6A5B',
+          500: '#779886', // Muted text with readable contrast on forest surfaces
+          400: '#8EB69B', // Sage Mint
+          300: '#B0CEB9',
+          200: '#C7E2CE',
+          100: '#DAF1DE', // Pale Mint
+          50: '#F4FAF6',  // Light Mode Mint-White
+        },
+        mint: {
+          500: '#52796F',
+          400: '#8EB69B', // Sage Mint
+          300: '#B0CEB9',
+          200: '#C7E2CE',
+          100: '#DAF1DE', // Pale Mint
+          50: '#F4FAF6',
+        },
         navy: {
-          950: '#060A13', // deepest background
-          900: '#0A0F1D', // primary dark background
-          850: '#0E162A', // card background
-          800: '#141E38', // active/hover card
-          700: '#1C2B4E', // subtle border / dividers
-          600: '#2A3C6B', // muted text / active border
+          950: '#051F20', // Mapped to Deep Forest Green
+          900: '#0B2B26', // Mapped to Dark Teal Green
+          850: '#10332C', // Mapped to Elevated Forest
+          800: '#163832', // Mapped to Forest Green
+          700: '#235347', // Mapped to Emerald Green
+          600: '#2D6A5B',
         },
         brand: {
-          blue: '#3B82F6',
-          violet: '#8B5CF6',
-          cyan: '#06B6D4',
-          accent: '#6366F1',
+          forest: '#051F20',
+          teal: '#0B2B26',
+          emerald: '#235347',
+          mint: '#8EB69B',
+          pale: '#DAF1DE',
+          blue: '#8EB69B',   // Harmonized with Sage Mint
+          violet: '#235347', // Harmonized with Emerald Green
+          cyan: '#8EB69B',   // Harmonized with Sage Mint
+          accent: '#235347',
         },
         surface: {
-          dark: 'rgba(14, 22, 42, 0.75)',
-          darkHover: 'rgba(20, 30, 56, 0.85)',
-          darkBorder: 'rgba(255, 255, 255, 0.08)',
-          darkBorderHighlight: 'rgba(139, 92, 246, 0.3)',
-          light: 'rgba(255, 255, 255, 0.85)',
-          lightHover: 'rgba(248, 250, 252, 0.95)',
-          lightBorder: 'rgba(226, 232, 240, 0.8)',
-          lightBorderHighlight: 'rgba(99, 102, 241, 0.35)',
+          dark: 'rgba(22, 56, 50, 0.65)',
+          darkHover: 'rgba(35, 83, 71, 0.75)',
+          darkBorder: 'rgba(218, 241, 222, 0.14)',
+          darkBorderHighlight: 'rgba(218, 241, 222, 0.35)',
+          light: 'rgba(255, 255, 255, 0.88)',
+          lightHover: 'rgba(244, 250, 246, 0.98)',
+          lightBorder: 'rgba(35, 83, 71, 0.16)',
+          lightBorderHighlight: 'rgba(35, 83, 71, 0.4)',
         }
+      },
+      backgroundImage: {
+        'gradient-forest': 'linear-gradient(145deg, #051F20 0%, #0B2B26 45%, #163832 100%)',
+        'gradient-emerald': 'linear-gradient(135deg, #0B2B26 0%, #163832 45%, #235347 100%)',
+        'gradient-mint': 'linear-gradient(135deg, #8EB69B 0%, #DAF1DE 100%)',
+        'gradient-accent': 'linear-gradient(120deg, #051F20 0%, #163832 55%, #235347 100%)',
       },
       backdropBlur: {
         xs: '2px',
-        glass: '16px',
+        glass: '18px',
       },
       boxShadow: {
-        'glass-sm': '0 4px 16px 0 rgba(0, 0, 0, 0.25)',
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.35)',
-        'glass-glow': '0 0 25px -5px rgba(99, 102, 241, 0.25)',
-        'glass-glow-lg': '0 0 40px -5px rgba(139, 92, 246, 0.3)',
-        'light-glass': '0 8px 32px 0 rgba(31, 38, 135, 0.08)',
+        'glass-sm': '0 4px 16px 0 rgba(0, 0, 0, 0.18)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.25)',
+        'glass-glow': '0 0 25px -5px rgba(35, 83, 71, 0.45)',
+        'glass-glow-lg': '0 0 45px -5px rgba(142, 182, 155, 0.35)',
+        'glass-mint': '0 0 20px -3px rgba(218, 241, 222, 0.25)',
+        'light-glass': '0 8px 32px 0 rgba(5, 31, 32, 0.08)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],

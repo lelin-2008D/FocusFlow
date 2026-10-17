@@ -28,16 +28,16 @@ export const OverdueView: React.FC<OverdueViewProps> = ({ onEditTask, projectId 
   })
 
   return (
-    <div className="space-y-5 animate-fade-in pb-20 md:pb-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800/80 light:border-slate-200">
+    <div className="space-y-5 animate-fade-in pb-24 md:pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-forest-800/80 light:border-mint-200">
         <div>
           <div className="flex items-center gap-2">
-            <AlertCircle className="h-6 w-6 text-rose-500 animate-pulse" />
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white light:text-slate-900">
+            <AlertCircle className="h-6 w-6 text-rose-500 light:text-rose-700 animate-pulse" />
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-mint-100 light:text-forest-950">
               Overdue Tasks
             </h2>
           </div>
-          <p className="text-xs text-rose-400/90 mt-0.5">
+          <p className="text-xs text-rose-400/90 light:text-rose-700 mt-0.5">
             Tasks past their due date that need your immediate attention
           </p>
         </div>

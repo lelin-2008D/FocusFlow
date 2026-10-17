@@ -71,29 +71,29 @@ export const InstallPromptBanner: React.FC = () => {
 
   return (
     <div className="fixed bottom-16 md:bottom-5 right-4 left-4 md:left-auto md:max-w-md z-40 animate-slide-up">
-      <div className="rounded-2xl glass-panel p-4 shadow-2xl border border-violet-500/30 backdrop-blur-glass flex items-start gap-3.5 bg-navy-900/95 light:bg-white/95">
-        <div className="h-11 w-11 rounded-xl bg-navy-950/70 border border-violet-500/30 shrink-0 flex items-center justify-center">
+      <div className="rounded-2xl glass-modal p-4 shadow-2xl flex items-start gap-3.5">
+        <div className="h-11 w-11 rounded-xl bg-forest-950/70 border border-mint-400/30 shrink-0 flex items-center justify-center">
           <img src={focusflowLogo} alt="FocusFlow" className="h-11 w-11 object-contain" />
         </div>
 
         <div className="flex-1 min-w-0 text-xs">
           <div className="flex items-center justify-between gap-2">
-            <h4 className="font-semibold text-white light:text-slate-900 text-sm">
+            <h4 className="font-semibold text-mint-100 light:text-forest-950 text-sm">
               Install FocusFlow App
             </h4>
             <button
               onClick={handleDismiss}
-              className="p-1 rounded-md text-slate-400 hover:text-white light:hover:text-slate-900 transition-colors"
+              className="p-1 rounded-md text-forest-400 hover:text-mint-100 light:hover:text-forest-900 transition-colors"
               aria-label="Dismiss install banner"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
 
-          <p className="mt-1 text-slate-300 light:text-slate-600 leading-relaxed">
+          <p className="mt-1 text-forest-300 light:text-forest-700 leading-relaxed">
             {isIOS ? (
               <span>
-                To install on iOS: Tap <strong className="text-violet-400">Share</strong> (box with arrow) in Safari, then select <strong className="text-violet-400">"Add to Home Screen"</strong>.
+                To install on iOS: Tap <strong className="text-mint-400">Share</strong> (box with arrow) in Safari, then select <strong className="text-mint-400">"Add to Home Screen"</strong>.
               </span>
             ) : (
               'Install for offline instant launch, task reminders, and a distraction-free window.'

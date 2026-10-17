@@ -97,11 +97,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <div
       className={cn(
-        'group relative rounded-2xl border transition-all duration-200 p-4',
+        'group relative rounded-2xl border p-4 transition-all duration-200',
         task.completed
-          ? 'bg-navy-900/40 light:bg-slate-50/80 border-slate-800/60 light:border-slate-200/80 opacity-75'
-          : 'glass-panel glass-panel-hover',
-        isOverdue && !task.completed && 'border-rose-500/40 shadow-[0_0_15px_-3px_rgba(244,63,94,0.15)]'
+          ? 'bg-forest-900/40 light:bg-forest-50/80 border-forest-800/60 light:border-forest-200/80 opacity-75'
+          : 'glass-card',
+        isOverdue && !task.completed && 'border-rose-500/40 shadow-[0_0_15px_-3px_rgba(244,63,94,0.2)]'
       )}
     >
       <div className="flex items-start gap-3.5">
@@ -109,17 +109,17 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         {!isTrashView ? (
           <button
             onClick={handleToggle}
-            className="mt-0.5 text-slate-400 hover:text-violet-400 focus:outline-none focus:ring-2 focus:ring-violet-500 rounded-full transition-transform active:scale-90"
+            className="mt-0.5 text-forest-400 hover:text-mint-400 focus:outline-none focus:ring-2 focus:ring-mint-400 rounded-full transition-transform active:scale-90"
             aria-label={`Mark task "${task.title}" as ${task.completed ? 'incomplete' : 'complete'}`}
           >
             {task.completed ? (
-              <CheckCircle2 className="h-5 w-5 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" />
+              <CheckCircle2 className="h-5 w-5 text-mint-400 drop-shadow-[0_0_8px_rgba(142,182,155,0.45)]" />
             ) : (
-              <Circle className="h-5 w-5 text-slate-500 group-hover:text-slate-300 transition-colors" />
+              <Circle className="h-5 w-5 text-forest-500 group-hover:text-mint-300 transition-colors" />
             )}
           </button>
         ) : (
-          <div className="mt-0.5 text-slate-600">
+          <div className="mt-0.5 text-forest-600">
             <Trash2 className="h-4 w-4" />
           </div>
         )}
@@ -132,22 +132,22 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               className={cn(
                 'text-sm font-semibold tracking-tight transition-colors cursor-pointer select-text',
                 task.completed
-                  ? 'line-through text-slate-500 light:text-slate-400'
-                  : 'text-slate-100 light:text-slate-900 hover:text-brand-blue'
+                  ? 'line-through text-forest-500 light:text-forest-400'
+                  : 'text-mint-100 light:text-forest-950 hover:text-mint-400 light:hover:text-emerald-700'
               )}
             >
               {task.title}
             </h3>
 
             {/* Action buttons */}
-            <div className="flex items-center gap-1 opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-1 opacity-80 sm:opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
               {!isTrashView ? (
                 <>
                   {!task.completed && (
                     <div className="relative">
                       <button
                         onClick={() => setShowSnoozeMenu(!showSnoozeMenu)}
-                        className="p-1 rounded-md text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                        className="p-1 rounded-md text-forest-400 hover:text-amber-400 light:hover:text-amber-800 hover:bg-amber-500/10 light:hover:bg-amber-50 transition-colors"
                         title="Snooze task"
                         aria-label="Snooze task"
                       >
@@ -155,28 +155,28 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                       </button>
 
                       {showSnoozeMenu && (
-                        <div className="absolute right-0 top-full mt-1 w-36 rounded-xl glass-panel shadow-2xl p-1 z-30 border border-slate-700 light:border-slate-300 text-left">
+                        <div className="absolute right-0 top-full mt-1 w-36 rounded-xl glass-dropdown p-1 z-30 text-left">
                           <button
                             onClick={() => handleSnooze('5m')}
-                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700"
+                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-forest-800 light:hover:bg-forest-100 text-forest-300 light:text-forest-700"
                           >
                             + 5 minutes
                           </button>
                           <button
                             onClick={() => handleSnooze('15m')}
-                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700"
+                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-forest-800 light:hover:bg-forest-100 text-forest-300 light:text-forest-700"
                           >
                             + 15 minutes
                           </button>
                           <button
                             onClick={() => handleSnooze('1h')}
-                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700"
+                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-forest-800 light:hover:bg-forest-100 text-forest-300 light:text-forest-700"
                           >
                             + 1 hour
                           </button>
                           <button
                             onClick={() => handleSnooze('tomorrow_morning')}
-                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700"
+                            className="w-full text-left px-2 py-1.5 text-[11px] rounded-lg hover:bg-forest-800 light:hover:bg-forest-100 text-forest-300 light:text-forest-700"
                           >
                             Tomorrow 9 AM
                           </button>
@@ -188,7 +188,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                   {onEdit && (
                     <button
                       onClick={() => onEdit(task)}
-                      className="p-1 rounded-md text-slate-400 hover:text-white light:hover:text-slate-900 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors"
+                      className="p-1 rounded-md text-forest-400 hover:text-white light:hover:text-forest-900 hover:bg-forest-800 light:hover:bg-forest-200 transition-colors"
                       aria-label="Edit task"
                     >
                       <Edit2 className="h-3.5 w-3.5" />
@@ -196,7 +196,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                   )}
                   <button
                     onClick={handleMoveToTrash}
-                    className="p-1 rounded-md text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                    className="p-1 rounded-md text-forest-400 hover:text-rose-400 light:hover:text-rose-800 hover:bg-rose-500/10 light:hover:bg-rose-50 transition-colors"
                     aria-label="Move to trash"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -206,7 +206,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                 <>
                   <button
                     onClick={handleRestore}
-                    className="flex items-center gap-1 px-2 py-1 text-xs rounded-md text-emerald-400 hover:bg-emerald-500/15 transition-colors"
+                    className="flex items-center gap-1 px-2 py-1 text-xs rounded-md text-emerald-400 light:text-emerald-800 hover:bg-emerald-500/15 light:hover:bg-emerald-50 transition-colors"
                     aria-label="Restore task"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
@@ -214,7 +214,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                   </button>
                   <button
                     onClick={handlePermanentDelete}
-                    className="flex items-center gap-1 px-2 py-1 text-xs rounded-md text-rose-400 hover:bg-rose-500/15 transition-colors"
+                    className="flex items-center gap-1 px-2 py-1 text-xs rounded-md text-rose-400 light:text-rose-800 hover:bg-rose-500/15 light:hover:bg-rose-50 transition-colors"
                     aria-label="Delete permanently"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -227,7 +227,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
           {/* Description */}
           {task.description && (
-            <p className="mt-1 text-xs text-slate-400 light:text-slate-600 line-clamp-2 leading-relaxed">
+            <p className="mt-1 text-xs text-forest-400 light:text-forest-600 line-clamp-2 leading-relaxed">
               {task.description}
             </p>
           )}
@@ -247,15 +247,15 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               <Badge
                 variant={isOverdue ? 'overdue' : 'default'}
                 size="sm"
-                className={cn(isOverdue ? 'text-rose-400' : 'text-slate-400')}
+                className={cn(isOverdue ? 'text-rose-400 light:text-rose-700' : 'text-forest-400 light:text-forest-700')}
               >
-                {isOverdue ? <AlertCircle className="h-2.5 w-2.5 mr-0.5 text-rose-400" /> : <Clock className="h-2.5 w-2.5 mr-0.5" />}
+                {isOverdue ? <AlertCircle className="h-2.5 w-2.5 mr-0.5 text-rose-400 light:text-rose-700" /> : <Clock className="h-2.5 w-2.5 mr-0.5" />}
                 {formattedDue}
               </Badge>
             )}
 
             {task.reminderEnabled && (
-              <Badge size="sm" className="text-amber-400 bg-amber-500/10 border-amber-500/30">
+              <Badge size="sm" className="text-amber-400 light:text-amber-800 bg-amber-500/10 light:bg-amber-50 border-amber-500/30 light:border-amber-700/20">
                 <Bell className="h-2.5 w-2.5 mr-0.5" />
                 <span>{task.reminderRule && task.reminderRule !== 'once' ? `${task.reminderRule}` : 'Reminder'}</span>
               </Badge>
@@ -265,7 +265,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             {totalCount > 0 && (
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium rounded-full bg-slate-800/80 text-violet-300 border border-violet-500/30 hover:bg-violet-500/20 transition-colors"
+                className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium rounded-full bg-forest-900/80 light:bg-mint-100 text-mint-300 light:text-forest-900 border border-mint-400/30 hover:bg-forest-800/80 transition-colors"
               >
                 <span>{completedCount}/{totalCount} subtasks</span>
                 {isExpanded ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}

@@ -20,16 +20,16 @@ export const TrashView: React.FC = () => {
   }
 
   return (
-    <div className="space-y-5 animate-fade-in pb-20 md:pb-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800/80 light:border-slate-200">
+    <div className="space-y-5 animate-fade-in pb-24 md:pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-forest-800/80 light:border-mint-200">
         <div>
           <div className="flex items-center gap-2">
-            <Trash2 className="h-6 w-6 text-slate-400" />
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white light:text-slate-900">
+            <Trash2 className="h-6 w-6 text-forest-400" />
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-mint-100 light:text-forest-950">
               Trash
             </h2>
           </div>
-          <p className="text-xs text-slate-400 light:text-slate-600 mt-0.5">
+          <p className="text-xs text-forest-400 light:text-forest-600 mt-0.5">
             Deleted tasks can be restored here or permanently removed
           </p>
         </div>

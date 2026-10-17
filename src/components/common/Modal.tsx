@@ -50,7 +50,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-fade-in"
+      className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-6 pt-safe pb-safe overflow-y-auto overscroll-contain animate-fade-in"
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}
@@ -66,7 +66,7 @@ export const Modal: React.FC<ModalProps> = ({
       <div
         ref={modalRef}
         className={cn(
-          'relative w-full rounded-2xl border border-slate-700/60 light:border-slate-300 bg-navy-900/95 light:bg-white/95 p-5 sm:p-6 shadow-2xl backdrop-blur-glass z-10 animate-slide-up text-slate-100 light:text-slate-900 max-h-[90vh] overflow-y-auto',
+          'relative w-full rounded-2xl glass-modal p-4 sm:p-6 z-10 animate-slide-up text-forest-100 light:text-forest-950 max-h-[85vh] sm:max-h-[90vh] overflow-y-auto overscroll-contain',
           maxWidthStyles
         )}
       >
@@ -74,18 +74,18 @@ export const Modal: React.FC<ModalProps> = ({
         <div className="flex items-start justify-between gap-4 mb-5">
           <div>
             {title && (
-              <h2 id="modal-title" className="text-xl font-semibold tracking-tight text-white light:text-slate-900">
+              <h2 id="modal-title" className="text-xl font-semibold tracking-tight text-white light:text-forest-900">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-sm text-slate-400 light:text-slate-600 mt-1">{description}</p>
+              <p className="text-sm text-forest-400 light:text-forest-600 mt-1">{description}</p>
             )}
           </div>
           <button
             onClick={onClose}
             aria-label="Close dialog"
-            className="rounded-lg p-1.5 text-slate-400 hover:text-white light:hover:text-slate-900 hover:bg-slate-800 light:hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="rounded-lg p-1.5 text-forest-400 hover:text-white light:hover:text-forest-900 hover:bg-forest-800 light:hover:bg-forest-100 transition-colors focus:outline-none focus:ring-2 focus:ring-mint-400"
           >
             <X className="h-5 w-5" />
           </button>

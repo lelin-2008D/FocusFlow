@@ -30,19 +30,19 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <div className={cn('relative flex items-center w-full', className)}>
-      <Search className="absolute left-3.5 h-4 w-4 text-slate-400 pointer-events-none" />
+      <Search className="absolute left-3.5 h-4 w-4 text-forest-400 pointer-events-none" />
       <input
         ref={inputRef}
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full pl-10 pr-10 py-2 text-sm rounded-xl glass-input placeholder:text-slate-500 transition-all duration-200"
+        className="w-full pl-10 pr-10 py-2 text-sm rounded-xl glass-input placeholder:text-mint-300 light:placeholder:text-forest-700 transition-all duration-200"
       />
       {value && (
         <button
           onClick={() => onChange('')}
-          className="absolute right-3 p-1 rounded-md text-slate-400 hover:text-white transition-colors"
+          className="absolute right-3 p-1 rounded-md text-forest-400 hover:text-white light:hover:text-forest-950 transition-colors"
           aria-label="Clear search"
         >
           <X className="h-4 w-4" />

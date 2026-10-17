@@ -146,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Notification / Reminders Settings Button */}
           <button
             onClick={onOpenNotificationSettingsModal}
-            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
+            className="min-h-11 min-w-11 p-1.5 sm:p-2 inline-flex items-center justify-center rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
             aria-label="Notification and Reminder settings"
             title="Notification & Reminder Settings"
           >

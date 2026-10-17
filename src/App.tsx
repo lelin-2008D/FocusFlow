@@ -147,6 +147,10 @@ export function App() {
         </main>
       </div>
 
+      <footer className="w-full border-t border-mint-400/10 light:border-forest-700/10 px-4 py-3 pb-24 md:pb-4 text-center text-[11px] text-forest-400 light:text-forest-600">
+        © {new Date().getFullYear()} FocusFlow · Built for focused work
+      </footer>
+
       <MobileNav
         activeView={activeView}
         onSelectView={setActiveView}

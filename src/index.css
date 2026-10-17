@@ -76,6 +76,34 @@
 }
 
 @layer utilities {
+  /* Shared feedback for controls and elements explicitly marked clickable. */
+  button:not(:disabled),
+  a[href],
+  [role='button']:not([aria-disabled='true']),
+  [class~='cursor-pointer'] {
+    transition-property: color, background-color, border-color, box-shadow, filter, transform;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    button:not(:disabled):hover,
+    a[href]:hover,
+    [role='button']:not([aria-disabled='true']):hover,
+    [class~='cursor-pointer']:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+  }
+
+  button:not(:disabled):active,
+  a[href]:active,
+  [role='button']:not([aria-disabled='true']):active,
+  [class~='cursor-pointer']:active {
+    filter: brightness(0.96);
+    transform: translateY(0) scale(0.99);
+  }
+
   /* Core Glassmorphic Panel (Design Reference) */
   .glass-panel {
     background: var(--card-bg);

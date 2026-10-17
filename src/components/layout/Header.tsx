@@ -146,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Notification / Reminders Settings Button */}
           <button
             onClick={onOpenNotificationSettingsModal}
-            className="min-h-11 min-w-11 p-1.5 sm:p-2 inline-flex items-center justify-center rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
+            className="h-11 w-11 shrink-0 inline-flex items-center justify-center rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
             aria-label="Notification and Reminder settings"
             title="Notification & Reminder Settings"
           >
@@ -156,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Sound Toggle */}
           <button
             onClick={toggleSound}
-            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
+            className="h-11 w-11 shrink-0 inline-flex items-center justify-center rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
             aria-label={soundEnabled ? 'Mute sound chimes' : 'Unmute sound chimes'}
             title={soundEnabled ? 'Sound is ON' : 'Sound is OFF'}
           >
@@ -166,7 +166,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
+            className="h-11 w-11 shrink-0 inline-flex items-center justify-center rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
             aria-label="Toggle theme"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
           >

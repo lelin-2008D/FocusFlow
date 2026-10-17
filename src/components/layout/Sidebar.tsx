@@ -104,12 +104,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   className={cn(
                     'w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150',
                     isActive
-                      ? 'bg-gradient-to-r from-forest-900/90 to-forest-800/90 text-mint-100 light:text-forest-950 border border-mint-400/30 shadow-sm'
+                      ? 'bg-gradient-to-r from-forest-900/90 to-forest-800/90 text-mint-100 light:text-white border border-mint-400/30 shadow-sm'
                       : 'text-forest-400 light:text-forest-700 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/40 light:hover:bg-mint-100/60'
                   )}
                 >
                   <div className="flex items-center gap-2.5">
-                    <Icon className={cn('h-4 w-4', isActive ? 'text-mint-400' : 'text-forest-500')} />
+                    <Icon className={cn('h-4 w-4', isActive ? 'text-mint-200 light:text-white' : 'text-forest-500')} />
                     <span>{item.label}</span>
                   </div>
 

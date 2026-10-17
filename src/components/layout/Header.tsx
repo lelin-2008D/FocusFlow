@@ -94,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Sync & Network Status Pill */}
           <button
             onClick={handleManualSync}
-            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border backdrop-blur-xs transition-colors focus:outline-none focus:ring-1 focus:ring-mint-400 ${
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border backdrop-blur-xs transition-colors focus:outline-none ${
               syncStatus === 'syncing'
                 ? 'bg-emerald-700/20 light:bg-mint-100 text-mint-300 light:text-forest-900 border-mint-400/30 light:border-forest-700/20'
                 : isOnline
@@ -146,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Notification / Reminders Settings Button */}
           <button
             onClick={onOpenNotificationSettingsModal}
-            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none focus:ring-2 focus:ring-mint-400"
+            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
             aria-label="Notification and Reminder settings"
             title="Notification & Reminder Settings"
           >
@@ -156,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Sound Toggle */}
           <button
             onClick={toggleSound}
-            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none focus:ring-2 focus:ring-mint-400"
+            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
             aria-label={soundEnabled ? 'Mute sound chimes' : 'Unmute sound chimes'}
             title={soundEnabled ? 'Sound is ON' : 'Sound is OFF'}
           >
@@ -166,7 +166,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none focus:ring-2 focus:ring-mint-400"
+            className="min-h-11 min-w-11 p-1.5 sm:p-2 rounded-xl text-forest-400 hover:text-mint-100 light:hover:text-forest-950 hover:bg-forest-800/50 light:hover:bg-mint-200/50 transition-colors focus:outline-none"
             aria-label="Toggle theme"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
           >

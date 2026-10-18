@@ -71,7 +71,8 @@ export class PushManagerService {
       throw new Error('Web Push is not supported by this browser.')
     }
 
-    const key = vapidPublicKey || import.meta.env.VITE_VAPID_PUBLIC_KEY
+    const DEFAULT_VAPID_PUBLIC_KEY = 'BK_KTCvv8c1E4ngEzsIrqX63O_iHptZYoJ6PQXkKhtinFBqjEGTPFXp5wotEWy1EPldabfzS1aUO6euK6QU_MKM'
+    const key = vapidPublicKey ?? (import.meta.env.VITE_VAPID_PUBLIC_KEY || DEFAULT_VAPID_PUBLIC_KEY)
     if (!key || key === 'your-vapid-public-key-here') {
       throw new Error(
         'VAPID Public Key is not configured. Please set VITE_VAPID_PUBLIC_KEY in your .env file.'

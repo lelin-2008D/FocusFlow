@@ -9,7 +9,9 @@ import {
   Moon,
   Send,
   HelpCircle,
+  Volume2,
 } from 'lucide-react'
+import { soundService } from '../../services/audioService'
 
 interface NotificationSettingsModalProps {
   isOpen: boolean
@@ -57,13 +59,26 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
     }
   }
 
+  const handlePlayTestSound = () => {
+    try {
+      soundService.playReminder()
+      setMessage({ text: 'Played reminder alert chime sound 🔔', type: 'info' })
+    } catch (err: any) {
+      setMessage({ text: err?.message || 'Could not play alert sound.', type: 'error' })
+    }
+  }
+
   const handleTestNotification = async () => {
     try {
       await pushManager.showLocalPreview(
-        'FocusFlow Test Reminder',
-        'Web push and local notifications are working properly.'
+        'FocusFlow Reminder Alert',
+        'Web push notifications and audio chimes are active.',
+        undefined,
+        true
       )
-      setMessage({ text: 'Test notification triggered!', type: 'success' })
+      setMessage({ text: 'Test notification and chime sound triggered! 🔔', type: 'success' })
+      const updated = await pushManager.getStatus()
+      setStatus(updated)
     } catch (err: any) {
       setMessage({ text: err?.message || 'Failed to trigger test notification.', type: 'error' })
     }
@@ -150,15 +165,27 @@ export const NotificationSettingsModal: React.FC<NotificationSettingsModalProps>
               </span>
             </div>
 
-            {status.permission === 'granted' && (
+            <div className="flex items-center gap-3">
               <button
+                type="button"
+                onClick={handlePlayTestSound}
+                className="flex items-center gap-1.5 text-xs text-mint-300 light:text-forest-700 hover:text-mint-100 light:hover:text-forest-950 font-medium transition-colors"
+                title="Play test alert chime sound"
+              >
+                <Volume2 className="h-3.5 w-3.5 text-mint-400" />
+                <span>Test Sound</span>
+              </button>
+
+              <button
+                type="button"
                 onClick={handleTestNotification}
                 className="flex items-center gap-1.5 text-xs text-mint-400 light:text-forest-700 hover:text-mint-300 light:hover:text-forest-900 font-medium transition-colors"
+                title="Trigger test push/local notification"
               >
                 <Send className="h-3.5 w-3.5" />
                 <span>Send Test Alert</span>
               </button>
-            )}
+            </div>
           </div>
         </div>
 

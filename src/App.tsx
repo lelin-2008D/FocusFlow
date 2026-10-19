@@ -14,6 +14,7 @@ import { NotificationSettingsModal } from './components/reminders/NotificationSe
 import { InstallPromptBanner } from './components/pwa/InstallPromptBanner'
 import { initializeDatabase } from './db/seed'
 import { syncEngine } from './services/syncEngine'
+import { reminderEngine } from './services/reminderEngine'
 import { taskService } from './services/taskService'
 import { computeSnooze } from './utils/recurrenceUtils'
 import type { Task } from './types/task'
@@ -29,8 +30,9 @@ export function App() {
   useEffect(() => {
     initializeDatabase()
       .then(() => {
-        // Start background periodic sync engine
+        // Start background periodic sync engine and reminder engine
         syncEngine.startPeriodicSync(30000)
+        reminderEngine.start(12000)
       })
       .catch((err) => {
         console.warn('Database initialization warning:', err)
@@ -60,12 +62,14 @@ export function App() {
       navigator.serviceWorker.addEventListener('message', handleMessage)
       return () => {
         syncEngine.stopPeriodicSync()
+        reminderEngine.stop()
         navigator.serviceWorker.removeEventListener('message', handleMessage)
       }
     }
 
     return () => {
       syncEngine.stopPeriodicSync()
+      reminderEngine.stop()
     }
   }, [])
 

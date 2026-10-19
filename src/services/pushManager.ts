@@ -1,4 +1,5 @@
 import { supabase, isSupabaseConfigured } from './supabaseClient'
+import { soundService } from './audioService'
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -149,20 +150,71 @@ export class PushManagerService {
 
   /**
    * Dispatches a local foreground preview notification (using browser Notification API)
+   * and plays the alert chime sound
    */
-  async showLocalPreview(title: string, body: string, taskId?: string): Promise<void> {
-    if (!this.isPushSupported() || Notification.permission !== 'granted') {
+  async showLocalPreview(
+    title: string,
+    body: string,
+    taskId?: string,
+    playSound: boolean = true
+  ): Promise<void> {
+    // 1. Play alert chime sound
+    if (playSound) {
+      try {
+        soundService.playReminder()
+      } catch (err) {
+        console.warn('Could not play reminder chime:', err)
+      }
+    }
+
+    // 2. Check notification support
+    if (!this.isPushSupported()) {
       return
     }
 
-    const reg = await navigator.serviceWorker.ready
-    await reg.showNotification(title, {
+    // 3. Request permission if currently 'default'
+    let permission = Notification.permission
+    if (permission === 'default') {
+      try {
+        permission = await Notification.requestPermission()
+      } catch (err) {
+        console.warn('Permission request error:', err)
+      }
+    }
+
+    if (permission !== 'granted') {
+      return
+    }
+
+    const iconUrl = `${import.meta.env.BASE_URL}focusflow.png`
+    const notificationOptions = {
       body,
-      icon: `${import.meta.env.BASE_URL}focusflow.png`,
-      badge: `${import.meta.env.BASE_URL}focusflow.png`,
-      tag: `local-reminder-${taskId || 'preview'}`,
+      icon: iconUrl,
+      badge: iconUrl,
+      vibrate: [200, 100, 200],
+      tag: `local-reminder-${taskId || 'preview'}-${Date.now()}`,
       data: { taskId, url: import.meta.env.BASE_URL },
-    })
+    }
+
+    // 4. Try Service Worker showNotification (works in standalone PWA on iOS 16.4+ and Android)
+    try {
+      if ('serviceWorker' in navigator) {
+        const reg = await navigator.serviceWorker.ready
+        if (reg && reg.showNotification) {
+          await reg.showNotification(title, notificationOptions)
+          return
+        }
+      }
+    } catch (err) {
+      console.warn('ServiceWorker showNotification failed, trying fallback:', err)
+    }
+
+    // 5. Fallback for Desktop Browsers (Chrome, Edge, Firefox, Safari)
+    try {
+      new Notification(title, notificationOptions)
+    } catch (err) {
+      console.warn('Desktop Notification fallback failed:', err)
+    }
   }
 }
 

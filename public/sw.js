@@ -1,6 +1,6 @@
 // FocusFlow Service Worker: Offline Caching & Web Push Notifications
 
-const CACHE_NAME = 'focusflow-shell-v3'
+const CACHE_NAME = 'focusflow-shell-v4'
 const APP_BASE = self.registration.scope
 const SHELL_ASSETS = [
   new URL('./', APP_BASE).toString(),

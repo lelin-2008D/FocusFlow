@@ -4,16 +4,41 @@
 class SoundService {
   private ctx: AudioContext | null = null
 
+  constructor() {
+    if (typeof window !== 'undefined') {
+      const unlockAudio = () => {
+        try {
+          const ctx = this.getContext()
+          if (ctx && ctx.state === 'suspended') {
+            ctx.resume().catch(() => {})
+          }
+        } catch {
+          // ignore
+        }
+        window.removeEventListener('click', unlockAudio)
+        window.removeEventListener('touchstart', unlockAudio)
+        window.removeEventListener('keydown', unlockAudio)
+      }
+      window.addEventListener('click', unlockAudio, { passive: true })
+      window.addEventListener('touchstart', unlockAudio, { passive: true })
+      window.addEventListener('keydown', unlockAudio, { passive: true })
+    }
+  }
+
   private getContext(): AudioContext | null {
     if (typeof window === 'undefined') return null
-    if (!this.ctx) {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
-      if (AudioCtx) {
-        this.ctx = new AudioCtx()
+    try {
+      if (!this.ctx || this.ctx.state === 'closed') {
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
+        if (AudioCtx) {
+          this.ctx = new AudioCtx()
+        }
       }
-    }
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume().catch(() => {})
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {})
+      }
+    } catch {
+      return null
     }
     return this.ctx
   }
@@ -73,28 +98,40 @@ class SoundService {
   }
 
   /**
-   * Gentle reminder chime
+   * Rich 3-tone notification alert chime (D5 -> A5 -> D6)
    */
   playReminder(): void {
     const ctx = this.getContext()
     if (!ctx) return
 
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {})
+    }
+
     const now = ctx.currentTime
-    const osc = ctx.createOscillator()
-    const gain = ctx.createGain()
+    const tones = [
+      { freq: 587.33, offset: 0, dur: 0.35, vol: 0.18 },   // D5
+      { freq: 880.00, offset: 0.12, dur: 0.35, vol: 0.20 }, // A5
+      { freq: 1174.66, offset: 0.24, dur: 0.60, vol: 0.24 } // D6
+    ]
 
-    osc.type = 'sine'
-    osc.frequency.setValueAtTime(587.33, now) // D5
-    osc.frequency.setValueAtTime(880.00, now + 0.12) // A5
+    tones.forEach(({ freq, offset, dur, vol }) => {
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
 
-    gain.gain.setValueAtTime(0.15, now)
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5)
+      osc.type = 'sine'
+      osc.frequency.setValueAtTime(freq, now + offset)
 
-    osc.connect(gain)
-    gain.connect(ctx.destination)
+      gain.gain.setValueAtTime(0, now + offset)
+      gain.gain.linearRampToValueAtTime(vol, now + offset + 0.015)
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + dur)
 
-    osc.start(now)
-    osc.stop(now + 0.55)
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+
+      osc.start(now + offset)
+      osc.stop(now + offset + dur + 0.05)
+    })
   }
 }
 
